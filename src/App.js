@@ -9,6 +9,8 @@ class App extends Component {
     let winner = false;
     let vertPiecesArray = [null,null,null,null,null,null];
     let horsPiecesArray = [null,null,null,null,null,null,null];
+    let ltrDiagPiecesArray = [null,null,null,null,null,null];
+    let rtlDiagPiecesArray = [null,null,null,null,null,null];
 
     function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player) {
       //count consecutive pieces
@@ -43,6 +45,36 @@ class App extends Component {
       }
     }
 
+    function checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player) {
+      // in order to group diagonals together, we must subtract the piece index and column index, to get a common number
+      // 3 is added to keep numbers positive, so they map to the correct array value
+      let ltrDiagGroupIndex = pieceIndex - columnIndex + 3;
+      let rtlDiagGroupIndex = pieceIndex - columnIndex - 3;
+
+      if (pieceValue !== null && pieceValue === player) {
+        // we are only checking the 5 diagonal groups that have a total of 4 or more pieces 
+        if(ltrDiagGroupIndex <= 5 && ltrDiagGroupIndex > 0){
+          ltrDiagPiecesArray[ltrDiagGroupIndex]++;                   
+        } else if (rtlDiagGroupIndex <= 5 && rtlDiagGroupIndex > 0) {
+          rtlDiagPiecesArray[rtlDiagGroupIndex]++;
+        }
+      } else {
+        if(ltrDiagGroupIndex <= 5 && ltrDiagGroupIndex > 0){
+          ltrDiagPiecesArray[ltrDiagGroupIndex] = null;                   
+        } else if (rtlDiagGroupIndex <= 5 && rtlDiagGroupIndex > 0) {
+          rtlDiagPiecesArray[rtlDiagGroupIndex] = null;
+        }
+      }
+
+      //check if theres a winner
+      if (ltrDiagPiecesArray[ltrDiagGroupIndex] === winNum || rtlDiagPiecesArray[rtlDiagGroupIndex] === winNum) {
+        winner = true;
+        console.log('game is won Diagonally');
+      } else {
+        console.log('game is not over')
+      }
+    }
+
     //ways to win 4 in a row
     for (const [columnIndex, column] of gameArray.entries()) {
       if (!winner) {
@@ -52,6 +84,9 @@ class App extends Component {
           
           checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, player);
           if (winner) break;
+
+          checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player);
+          if (winner) break;
         }
       }
     }
@@ -60,10 +95,10 @@ class App extends Component {
   render() {
     const currentPlayer = 1;
     const gameArray = [
-      [1, 1, 1, 0, 0, 0],
-      [1, 1, 1, 1, null, null],
-      [0, 0, null, null, null, null],
-      [1, 0, null, null, null, null],
+      [1, 1, null, null, null, null],
+      [1, 1, null, null, null, null],
+      [0, 0, 1, null, null, null],
+      [1, 0, 0, 1, null, null],
       [1, 1, null, null, null, null],
       [0, 1, null, null, null, null],
       [1, 1, null, null, null, null],
