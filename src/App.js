@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Grid from './Grid';
 import logo from './logo.svg';
 import './App.css';
 
@@ -47,7 +48,7 @@ class App extends Component {
 
     function checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player) {
       // in order to group diagonals together, we must subtract the piece index and column index, to get a common number
-      // 3 is added to keep numbers positive, so they map to the correct array value
+      // 3 is added to keep numbers positive, so they map to the correct array index
       let ltrDiagGroupIndex = pieceIndex - columnIndex + 3;
       let rtlDiagGroupIndex = pieceIndex - columnIndex - 3;
 
@@ -105,6 +106,7 @@ class App extends Component {
     ];
     return (
       <div className="App">
+        <Grid />
         <button onClick={this.isGameFinished(gameArray, currentPlayer)}>Submit Move</button>
       </div>
     );
