@@ -4,6 +4,45 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      game: [ 
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+      ],
+      player: 0,
+    }
+  }
+
+  handleClick() {
+    const gameStatus = this.state.game.slice();
+    let currPlayer = this.state.player;
+    if(this.isGameFinished(gameStatus, currPlayer)){
+      console.log('There is a Winner');
+    } else {
+      currPlayer = 1 - currPlayer;
+      this.setState({
+        player: currPlayer,
+      })
+      console.log('Next Move');
+    }
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <Grid />
+        <h4>Current Turn: Red</h4>
+        <button className="submit" onClick={() => this.handleClick()} >Submit Move</button>
+      </div>
+    );
+  }
+
   isGameFinished(gameArray, player){
     const winNum = 4;
     let currNum = 0;
@@ -25,9 +64,7 @@ class App extends Component {
       if (vertPiecesArray[columnIndex] === winNum) {
         winner = true;
         console.log('game is won Vertically');
-      } else {
-        console.log('game is not over')
-      }
+      } 
     }
 
     function checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, player) {
@@ -41,8 +78,6 @@ class App extends Component {
       if (horsPiecesArray[pieceIndex] === winNum) {
         winner = true;
         console.log('game is won Horizontally');
-      } else {
-        console.log('game is not over')
       }
     }
 
@@ -71,8 +106,6 @@ class App extends Component {
       if (ltrDiagPiecesArray[ltrDiagGroupIndex] === winNum || rtlDiagPiecesArray[rtlDiagGroupIndex] === winNum) {
         winner = true;
         console.log('game is won Diagonally');
-      } else {
-        console.log('game is not over')
       }
     }
 
@@ -91,25 +124,8 @@ class App extends Component {
         }
       }
     }
-  }
 
-  render() {
-    const currentPlayer = 1;
-    const gameArray = [
-      [1, 1, null, null, null, null],
-      [1, 1, null, null, null, null],
-      [0, 0, 1, null, null, null],
-      [1, 0, 0, 1, null, null],
-      [1, 1, null, null, null, null],
-      [0, 1, null, null, null, null],
-      [1, 1, null, null, null, null],
-    ];
-    return (
-      <div className="App">
-        <Grid />
-        <button onClick={this.isGameFinished(gameArray, currentPlayer)}>Submit Move</button>
-      </div>
-    );
+    return winner;
   }
 }
 

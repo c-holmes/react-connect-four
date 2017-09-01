@@ -10,13 +10,16 @@ class Column extends Component {
 	render() {
 		return(
 			<div className="column">
-				{this.renderSquare(0)}
-				{this.renderSquare(1)}
-				{this.renderSquare(2)}
-				{this.renderSquare(3)}
-				{this.renderSquare(4)}
-				{this.renderSquare(5)}
-				{this.renderSquare(6)}
+				<div className="heading">{this.props.columnIndex}</div>
+				<div className="squares">
+					{this.renderSquare(0)}
+					{this.renderSquare(1)}
+					{this.renderSquare(2)}
+					{this.renderSquare(3)}
+					{this.renderSquare(4)}
+					{this.renderSquare(5)}
+					{this.renderSquare(6)}
+				</div>
 			</div>
 		)
 	}
@@ -24,7 +27,9 @@ class Column extends Component {
 
 function Square(props) {
 	return(
-		<button>Square</button>
+		<div className="square">
+			<button>{props.pieceIndex}</button>
+		</div>
 	)
 }
 
