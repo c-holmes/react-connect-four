@@ -19,7 +19,7 @@ class App extends Component {
     }
   }
 
-  handleClick() {
+  handleSubmitMove() {
     const gameStatus = this.state.game.slice();
     let currPlayer = this.state.player;
     if(this.isGameFinished(gameStatus, currPlayer)){
@@ -32,13 +32,22 @@ class App extends Component {
       console.log('Next Move');
     }
   }
+
+  handleSquareClick(props) {
+    const newGameStatus = this.state.game.slice();
+    newGameStatus[props.columnIndex][props.index] = props.player;
+    this.setState({
+      game: newGameStatus
+    })
+    console.log(props);
+  }
   
   render() {
     return (
       <div className="App">
-        <Grid />
-        <h4>Current Turn: Red</h4>
-        <button className="submit" onClick={() => this.handleClick()} >Submit Move</button>
+        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} />
+        <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
+        <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
       </div>
     );
   }

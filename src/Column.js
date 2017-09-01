@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import Square from './Square';
 
 class Column extends Component {
-	renderSquare(i) {
+	constructor() {
+		super();
+		this.state = {
+			status: 'inactive',
+		}
+	}
+
+	renderSquare(index) {
 		return(
-			<Square pieceValue="" pieceIndex={i} columnIndex="" />
+			<Square onClick={(i) => this.props.onClick(i)} player={this.props.player} index={index} columnIndex={this.props.columnIndex} />
 		)
 	}
 
@@ -23,14 +31,6 @@ class Column extends Component {
 			</div>
 		)
 	}
-}
-
-function Square(props) {
-	return(
-		<div className="square">
-			<button>{props.pieceIndex}</button>
-		</div>
-	)
 }
 
 export default Column;

@@ -25,3 +25,10 @@
   outline: none;
 }
 
+.square button.active.player0{
+  background: yellow;
+}
+
+.square button.active.player1{
+  background: red;
+}

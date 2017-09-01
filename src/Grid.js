@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Column from './Column';
 
 class Grid extends Component {
-	renderColumn(i) {
+	renderColumn(index) {
 		return(
-			<Column columnIndex={i} />
+			<Column player={this.props.player} columnIndex={index} onClick={(i) => this.props.onClick(i)} />
 		)
 	}
 
