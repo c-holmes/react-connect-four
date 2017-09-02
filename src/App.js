@@ -35,11 +35,26 @@ class App extends Component {
 
   handleSquareClick(props) {
     const newGameStatus = this.state.game.slice();
-    newGameStatus[props.columnIndex][props.index] = props.player;
+    const length = newGameStatus[props.columnIndex].length - 1;
+    let index;
+
+    //to account for pieces to obey gravity and stack from the bottom up
+    for (let [i, value] of newGameStatus[props.columnIndex].entries()){
+      if(value !== null){
+        index = i - 1;
+        break;
+      } else if( i === length){
+        index =  i;
+        break;
+      }
+    }
+
+    newGameStatus[props.columnIndex][index] = props.player;
     this.setState({
       game: newGameStatus
     })
-    console.log(props);
+
+    console.log(this.state.game);
   }
   
   render() {
