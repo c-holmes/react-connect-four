@@ -4,7 +4,7 @@ import Column from './Column';
 class Grid extends Component {
 	renderColumn(index) {
 		return(
-			<Column player={this.props.player} columnIndex={index} onClick={(i) => this.props.onClick(i)} />
+			<Column player={this.props.player} columnArray={this.props.game[index]} columnIndex={index} onClick={(i) => this.props.onClick(i)} />
 		)
 	}
 

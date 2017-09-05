@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
 
 class Square extends Component {
-	constructor() {
-		super();
-		this.state = {
-			status: 'inactive'
+	determineStatus(status) {
+		if(status === 0) {
+			return "active player-0";
+		} else if(status === 1) {
+			return "active player-1";
 		}
-	}
-
-	handleClick() {
-		const clicked = 'active ' + 'player' + this.props.player;
-		this.setState({
-			status: clicked 
-		})
+		return;
 	}
 
 	render() {
 		return(
 			<div className="square">
-				<button className={this.state.status} onClick={() => {this.props.onClick(this.props); this.handleClick();}}> {this.props.index}</button>
+				<button className={this.determineStatus(this.props.status)} onClick={() => {this.props.onClick(this.props)}}> {this.props.index}</button>
 			</div>
 		)
 	}

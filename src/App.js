@@ -8,12 +8,12 @@ class App extends Component {
     super();
     this.state = {
       game: [ 
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
       ],
       player: 0,
     }
@@ -53,14 +53,12 @@ class App extends Component {
     this.setState({
       game: newGameStatus
     })
-
-    console.log(this.state.game);
   }
   
   render() {
     return (
       <div className="App">
-        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} />
+        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} />
         <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
         <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
       </div>
@@ -71,10 +69,10 @@ class App extends Component {
     const winNum = 4;
     let currNum = 0;
     let winner = false;
-    let vertPiecesArray = [null,null,null,null,null,null];
-    let horsPiecesArray = [null,null,null,null,null,null,null];
-    let ltrDiagPiecesArray = [null,null,null,null,null,null];
-    let rtlDiagPiecesArray = [null,null,null,null,null,null];
+    let vertPiecesArray = [null,null,null,null,null,null,null];
+    let horsPiecesArray = [null,null,null,null,null,null,null,null];
+    let ttbDiagPiecesArray = [null,null,null,null,null,null,null];
+    let bttDiagPiecesArray = [null,null,null,null,null,null,null];
 
     function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player) {
       //count consecutive pieces
@@ -106,28 +104,32 @@ class App extends Component {
     }
 
     function checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player) {
-      // in order to group diagonals together, we must subtract the piece index and column index, to get a common number
+      // a diagonal win can either come from bottom to top (btt) or top to bottom (ttb)
+      // To group squares into their appropriate diagonals array, we must subtract the piece index and column index, to get a common number
       // 3 is added to keep numbers positive, so they map to the correct array index
-      let ltrDiagGroupIndex = pieceIndex - columnIndex + 3;
-      let rtlDiagGroupIndex = pieceIndex - columnIndex - 3;
+      let ttbDiagGroupIndex = pieceIndex - columnIndex + 3;
+      let bttDiagGroupIndex = pieceIndex + columnIndex - 3;
 
       if (pieceValue !== null && pieceValue === player) {
         // we are only checking the 5 diagonal groups that have a total of 4 or more pieces 
-        if(ltrDiagGroupIndex <= 5 && ltrDiagGroupIndex > 0){
-          ltrDiagPiecesArray[ltrDiagGroupIndex]++;                   
-        } else if (rtlDiagGroupIndex <= 5 && rtlDiagGroupIndex > 0) {
-          rtlDiagPiecesArray[rtlDiagGroupIndex]++;
+        if(ttbDiagGroupIndex <= 5 && ttbDiagGroupIndex > 0){
+          ttbDiagPiecesArray[ttbDiagGroupIndex]++;                   
+        }
+        if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex > 0) {
+          bttDiagPiecesArray[bttDiagGroupIndex]++;
         }
       } else {
-        if(ltrDiagGroupIndex <= 5 && ltrDiagGroupIndex > 0){
-          ltrDiagPiecesArray[ltrDiagGroupIndex] = null;                   
-        } else if (rtlDiagGroupIndex <= 5 && rtlDiagGroupIndex > 0) {
-          rtlDiagPiecesArray[rtlDiagGroupIndex] = null;
+        // reset array to 0 (null) 
+        if(ttbDiagGroupIndex <= 5 && ttbDiagGroupIndex > 0){
+          ttbDiagPiecesArray[ttbDiagGroupIndex] = null;                   
+        } 
+        if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex > 0) {
+          bttDiagPiecesArray[bttDiagGroupIndex] = null;
         }
       }
 
       //check if theres a winner
-      if (ltrDiagPiecesArray[ltrDiagGroupIndex] === winNum || rtlDiagPiecesArray[rtlDiagGroupIndex] === winNum) {
+      if (ttbDiagPiecesArray[ttbDiagGroupIndex] === winNum || bttDiagPiecesArray[bttDiagGroupIndex] === winNum) {
         winner = true;
         console.log('game is won Diagonally');
       }

@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class Column extends Component {
-	constructor() {
-		super();
-		this.state = {
-			status: 'inactive',
-		}
-	}
-
 	renderSquare(index) {
 		return(
-			<Square onClick={(i) => this.props.onClick(i)} player={this.props.player} index={index} columnIndex={this.props.columnIndex} />
+			<Square player={this.props.player} index={index} columnIndex={this.props.columnIndex} status={this.props.columnArray[index]} onClick={(i) => this.props.onClick(i)} />
 		)
 	}
 
