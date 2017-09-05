@@ -16,6 +16,7 @@ class App extends Component {
         [null, null, null, null, null, null, null],
       ],
       player: 0,
+      clicked: false,
     }
   }
 
@@ -28,31 +29,35 @@ class App extends Component {
       currPlayer = 1 - currPlayer;
       this.setState({
         player: currPlayer,
+        clicked: false,
       })
       console.log('Next Move');
     }
   }
 
   handleSquareClick(props) {
-    const newGameStatus = this.state.game.slice();
-    const length = newGameStatus[props.columnIndex].length - 1;
-    let index;
+    if(!this.state.clicked){
+      const newGameStatus = this.state.game.slice();
+      const length = newGameStatus[props.columnIndex].length - 1;
+      let index;
 
-    //to account for pieces to obey gravity and stack from the bottom up
-    for (let [i, value] of newGameStatus[props.columnIndex].entries()){
-      if(value !== null){
-        index = i - 1;
-        break;
-      } else if( i === length){
-        index =  i;
-        break;
+      //to account for pieces to obey gravity and stack from the bottom up
+      for (let [i, value] of newGameStatus[props.columnIndex].entries()){
+        if(value !== null){
+          index = i - 1;
+          break;
+        } else if( i === length){
+          index =  i;
+          break;
+        }
       }
-    }
 
-    newGameStatus[props.columnIndex][index] = props.player;
-    this.setState({
-      game: newGameStatus
-    })
+      newGameStatus[props.columnIndex][index] = props.player;
+      this.setState({
+        game: newGameStatus,
+        clicked: true,
+      })
+    }
   }
   
   render() {

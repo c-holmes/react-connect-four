@@ -8,7 +8,6 @@ ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
 
 // TODOs
-// limit to 1 move
 // winner message - who won, highlight row, reset game
 // number of moves
 // update design
