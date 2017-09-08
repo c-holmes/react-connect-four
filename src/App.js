@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
-import logo from './logo.svg';
+import WinMessage from './WinMessage';
 import './App.css';
 
 class App extends Component {
@@ -17,6 +17,7 @@ class App extends Component {
       ],
       player: 0,
       clicked: false,
+      winner: false,
     }
   }
 
@@ -24,6 +25,9 @@ class App extends Component {
     const gameStatus = this.state.game.slice();
     let currPlayer = this.state.player;
     if(this.isGameFinished(gameStatus, currPlayer)){
+      this.setState({
+        winner: true,
+      })
       console.log('There is a Winner');
     } else {
       currPlayer = 1 - currPlayer;
@@ -59,13 +63,34 @@ class App extends Component {
       })
     }
   }
+
+  handleReset() {
+    this.setState({
+      game: [ 
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+      ],
+      player: 0,
+      clicked: false,
+      winner: false,
+    })
+  }
   
   render() {
+    let winComponent = "";
+    if(this.state.winner){
+      winComponent = <WinMessage player={this.state.player} onClick={(i) => this.handleReset(i)} />;
+    }
     return (
       <div className="App">
         <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} />
         <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
         <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
+        {winComponent}
       </div>
     );
   }
