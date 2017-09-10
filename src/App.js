@@ -18,24 +18,25 @@ class App extends Component {
       player: 0,
       clicked: false,
       winner: false,
+      winStats: false,
     }
   }
 
   handleSubmitMove() {
     const gameStatus = this.state.game.slice();
     let currPlayer = this.state.player;
-    if(this.isGameFinished(gameStatus, currPlayer)){
+    let gameDone = this.isGameFinished(gameStatus, currPlayer);
+    if(gameDone){
       this.setState({
         winner: true,
+        winStats: gameDone
       })
-      console.log('There is a Winner');
     } else {
       currPlayer = 1 - currPlayer;
       this.setState({
         player: currPlayer,
         clicked: false,
       })
-      console.log('Next Move');
     }
   }
 
@@ -83,7 +84,7 @@ class App extends Component {
   render() {
     let winComponent = "";
     if(this.state.winner){
-      winComponent = <WinMessage player={this.state.player} onClick={(i) => this.handleReset(i)} />;
+      winComponent = <WinMessage stats={this.state.winStats} player={this.state.player} onClick={(i) => this.handleReset(i)} />;
     }
     return (
       <div className="App">
@@ -97,39 +98,61 @@ class App extends Component {
 
   isGameFinished(gameArray, player){
     const winNum = 4;
-    let currNum = 0;
     let winner = false;
     let vertPiecesArray = [null,null,null,null,null,null,null];
+    let vertWinArray = [[],[]];
     let horsPiecesArray = [null,null,null,null,null,null,null,null];
+    let horsWinArray = [[],[]];
     let ttbDiagPiecesArray = [null,null,null,null,null,null,null];
+    let ttbDiagWinArray = [[],[]];
     let bttDiagPiecesArray = [null,null,null,null,null,null,null];
+    let bttDiagWinArray = [[],[]];
 
     function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player) {
       //count consecutive pieces
       if (pieceValue !== null && pieceValue === player) {
         vertPiecesArray[columnIndex]++;
+        vertWinArray[player].push([columnIndex,pieceIndex]);
       } else {
         vertPiecesArray[columnIndex] = null;
       }
 
       //check if theres a winner
       if (vertPiecesArray[columnIndex] === winNum) {
-        winner = true;
-        console.log('game is won Vertically');
+        //only return the winning indexes
+        const winArray = vertWinArray[player].filter((i) => {
+          if(i[0] === columnIndex){
+            return i;
+          }
+          return;
+        });
+        winner =  {
+          winType: 'vertical',
+          winArray: winArray
+        };
       } 
     }
 
     function checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, player) {
       if ( pieceValue !== null && pieceValue === player) {
         horsPiecesArray[pieceIndex]++;
+        horsWinArray[player].push([columnIndex,pieceIndex]);
       } else {
         horsPiecesArray[pieceIndex] = null;
       }
 
       //check if theres a winner
       if (horsPiecesArray[pieceIndex] === winNum) {
-        winner = true;
-        console.log('game is won Horizontally');
+        const winArray = horsWinArray[player].filter((i) => {
+          if(i[1] === pieceIndex){
+            return i;
+          }
+          return;
+        })
+        winner =  {
+          winType: 'horizontal',
+          winArray: winArray
+        };
       }
     }
 
@@ -142,11 +165,21 @@ class App extends Component {
 
       if (pieceValue !== null && pieceValue === player) {
         // we are only checking the 5 diagonal groups that have a total of 4 or more pieces 
-        if(ttbDiagGroupIndex <= 5 && ttbDiagGroupIndex > 0){
-          ttbDiagPiecesArray[ttbDiagGroupIndex]++;                   
+        // console.log('piece index: ' + pieceIndex);
+        // console.log('column index: ' + columnIndex);
+        console.log('tbb index:' + ttbDiagGroupIndex);
+        console.log('btt index:' + bttDiagGroupIndex);
+        if(ttbDiagGroupIndex >= 5 && ttbDiagGroupIndex >= 0){
+          // console.log('ttb');
+          ttbDiagPiecesArray[ttbDiagGroupIndex]++;
+          // console.log(ttbDiagPiecesArray);
+          ttbDiagWinArray[player].push([columnIndex,pieceIndex]);                
         }
-        if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex > 0) {
+        if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex >= 0) {
+          // console.log('btt');
           bttDiagPiecesArray[bttDiagGroupIndex]++;
+          // console.log(bttDiagPiecesArray);
+          bttDiagWinArray[player].push([columnIndex,pieceIndex]);
         }
       } else {
         // reset array to 0 (null) 
@@ -160,8 +193,26 @@ class App extends Component {
 
       //check if theres a winner
       if (ttbDiagPiecesArray[ttbDiagGroupIndex] === winNum || bttDiagPiecesArray[bttDiagGroupIndex] === winNum) {
-        winner = true;
-        console.log('game is won Diagonally');
+        let winArray;
+        if (ttbDiagPiecesArray[ttbDiagGroupIndex] === winNum) {
+          winArray = ttbDiagWinArray[player].filter((i) => {
+            if((i[1] - i[0] + 3 ) === ttbDiagGroupIndex) {
+              return i;
+            }
+            return;
+          });
+        } else {
+          winArray = bttDiagWinArray[player].filter((i) => {
+            if((i[0] + i[1] - 3) === bttDiagGroupIndex) {
+              return i;
+            }
+            return;
+          });
+        }
+        winner = {
+          winType: 'diagonal',
+          winArray: winArray,
+        }
       }
     }
 
