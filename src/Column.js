@@ -4,7 +4,7 @@ import Square from './Square';
 class Column extends Component {
 	renderSquare(index) {
 		return(
-			<Square player={this.props.player} index={index} columnIndex={this.props.columnIndex} status={this.props.columnArray[index]} onClick={(i) => this.props.onClick(i)} />
+			<Square player={this.props.player} index={index} columnIndex={this.props.columnIndex} status={this.props.columnArray[index]} winStats={this.props.winStats} onClick={(i) => this.props.onClick(i)} />
 		)
 	}
 

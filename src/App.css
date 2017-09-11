@@ -32,3 +32,7 @@
 .square button.active.player-1{
   background: red;
 }
+
+.square button.active.winning-square{
+  background: #12ff12;
+}

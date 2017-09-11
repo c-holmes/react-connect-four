@@ -82,16 +82,16 @@ class App extends Component {
   }
   
   render() {
-    let winComponent = "";
+    let winMessage;
     if(this.state.winner){
-      winComponent = <WinMessage stats={this.state.winStats} player={this.state.player} onClick={(i) => this.handleReset(i)} />;
+      winMessage = <WinMessage stats={this.state.winStats} player={this.state.player} onClick={(i) => this.handleReset(i)} />;
     }
     return (
       <div className="App">
-        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} />
+        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
         <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
         <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
-        {winComponent}
+        {winMessage}
       </div>
     );
   }
@@ -165,25 +165,17 @@ class App extends Component {
 
       if (pieceValue !== null && pieceValue === player) {
         // we are only checking the 5 diagonal groups that have a total of 4 or more pieces 
-        // console.log('piece index: ' + pieceIndex);
-        // console.log('column index: ' + columnIndex);
-        console.log('tbb index:' + ttbDiagGroupIndex);
-        console.log('btt index:' + bttDiagGroupIndex);
-        if(ttbDiagGroupIndex >= 5 && ttbDiagGroupIndex >= 0){
-          // console.log('ttb');
+        if(ttbDiagGroupIndex <= 6 && ttbDiagGroupIndex >= 0){
           ttbDiagPiecesArray[ttbDiagGroupIndex]++;
-          // console.log(ttbDiagPiecesArray);
           ttbDiagWinArray[player].push([columnIndex,pieceIndex]);                
         }
         if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex >= 0) {
-          // console.log('btt');
           bttDiagPiecesArray[bttDiagGroupIndex]++;
-          // console.log(bttDiagPiecesArray);
           bttDiagWinArray[player].push([columnIndex,pieceIndex]);
         }
       } else {
         // reset array to 0 (null) 
-        if(ttbDiagGroupIndex <= 5 && ttbDiagGroupIndex > 0){
+        if(ttbDiagGroupIndex <= 6 && ttbDiagGroupIndex > 0){
           ttbDiagPiecesArray[ttbDiagGroupIndex] = null;                   
         } 
         if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex > 0) {
