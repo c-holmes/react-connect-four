@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from './Grid';
 import WinMessage from './WinMessage';
-import './App.css';
+require('./styles/style.scss');
 
 class App extends Component {
   constructor() {

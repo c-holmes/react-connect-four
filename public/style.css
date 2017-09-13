@@ -1,0 +1,38 @@
+.App {
+  text-align: center; }
+
+.grid {
+  width: 400px;
+  display: inline-block;
+  border: 1px solid #bbb;
+  margin: 20px;
+  padding: 5px; }
+
+.column {
+  width: 16.5%;
+  display: inline-block; }
+
+.square button {
+  width: 100%;
+  border-radius: 0;
+  border-style: none;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  margin: 0px;
+  outline: none; }
+
+.square button.active.player-0 {
+  background: yellow; }
+
+.square button.active.player-1 {
+  background: red; }
+
+.square button.active.winning-square {
+  background: #12ff12; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+/*# sourceMappingURL=style.css.map*/
