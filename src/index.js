@@ -4,7 +4,5 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
-
-// TODOs
-// update design
+// registerServiceWorker();
+// Service workers are only available to "secure origins" (HTTPS sites, basically)
