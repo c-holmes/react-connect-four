@@ -1,12 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
 }
 
+.App{
+  margin: 30px;
+}
+
 .grid{
-  width: 400px;
+  width: 100%;
   display: inline-block;
-  border: 1px solid #bbb;
-  margin: 20px;
   padding: 5px;
 }
 
@@ -15,30 +23,38 @@
   display: inline-block;
 }
 
-.square button{
-  width: 100%;
-  border-radius: 0;
-  border-style: none;
-  background: #f7f7f7;
-  border: 1px solid #ddd;
-  margin: 0px;
-  outline: none;
+.square{
+  button{
+    width: 100%;
+    border-radius: 0;
+    border-style: none;
+    background: #f7f7f7;
+    margin: 0px;
+    outline: none;
+    border: 5px solid #f7f7f7;
+
+    &.active.player-0{
+      background: yellow;
+      border: 5px solid darken(yellow, 7%);
+    }
+
+    &.active.player-1{
+      background: red;
+      border: 5px solid darken(red, 7%);
+    }
+
+    &.active.winning-square{
+      background: #12ff12;
+      border: 5px solid darken(#12ff12, 7%);
+    }
+  }
 }
 
-.square button.active.player-0{
-  background: yellow;
+// hide numbers
+.grid{
+  .heading, .square button{
+    font-size: 0; 
+  }
 }
 
-.square button.active.player-1{
-  background: red;
-}
 
-.square button.active.winning-square{
-  background: #12ff12;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}

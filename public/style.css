@@ -1,12 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
 .App {
   text-align: center; }
 
+.App {
+  margin: 30px; }
+
 .grid {
-  width: 400px;
+  width: 100%;
   display: inline-block;
   border: 1px solid #bbb;
-  margin: 20px;
-  padding: 5px; }
+  padding: 5px;
+  max-width: 500px; }
 
 .column {
   width: 16.5%;
@@ -20,17 +28,26 @@
   border: 1px solid #ddd;
   margin: 0px;
   outline: none; }
+  .square button.active.player-0 {
+    background: yellow; }
+  .square button.active.player-1 {
+    background: red; }
+  .square button.active.winning-square {
+    background: #12ff12; }
 
-.square button.active.player-0 {
-  background: yellow; }
+.grid .heading, .grid .square button {
+  font-size: 0; }
 
-.square button.active.player-1 {
-  background: red; }
-
-.square button.active.winning-square {
-  background: #12ff12; }
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif; }
+.grid {
+  background: #2a5fc1; }
+  .grid .square {
+    font-size: 0;
+    padding: 5px 10px; }
+    .grid .square button {
+      width: 100%;
+      height: auto;
+      border-radius: 50%; }
+      .grid .square button:after {
+        padding-top: 100%;
+        display: block;
+        content: ''; }

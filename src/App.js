@@ -85,13 +85,19 @@ class App extends Component {
     let winMessage;
     if(this.state.winner){
       winMessage = <WinMessage stats={this.state.winStats} player={this.state.player} onClick={(i) => this.handleReset(i)} />;
-    }
+    } 
     return (
       <div className="App">
-        <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
-        <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
-        <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
-        {winMessage}
+        <div className="board">
+          <div className="leg left"><div className="base"></div></div>
+          <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
+          <div className="leg right"><div className="base"></div></div>
+        </div>
+        <div className="admin-prompt">
+          <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
+          <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
+          {winMessage}
+        </div>
       </div>
     );
   }

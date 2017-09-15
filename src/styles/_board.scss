@@ -1,0 +1,82 @@
+.board{
+  max-width: 560px;
+  width: 100%;
+  position: relative;
+  padding: 0 15px;
+  margin: 0 auto;
+  box-sizing:border-box;
+
+  .leg{
+  	position: absolute;
+  	height: 110%;
+  	width: 15px;
+  	background: darken(#2a5fc1, 7%);
+  	top: 0px;
+
+  	&.left{
+  		left: 0;
+  	}
+
+  	&.right{
+  		right: 0;
+  	}
+
+  	.base{
+  		width: 100px;
+  		height: 47px;
+  		position: absolute;
+  		bottom: 0;
+  		right: -50px;
+  		background: darken(#2a5fc1, 7%);
+
+  		&:after {
+  			content: "";
+  			display: block;
+  			width: 58px;
+  			height: 52px;
+  			background: #fff;
+  			border-radius: 0 0 35px;
+  			left: -23px;
+  			bottom: -5px;
+  			position: absolute;
+  		}
+
+  		&:before {
+  			content: "";
+  			display: block;
+  			width: 58px;
+  			height: 52px;
+  			background: #fff;
+  			border-radius: 0 0 0 35px;
+  			right: -8px;
+  			bottom: -5px;
+  			position: absolute;
+  		}
+  	}
+  }
+}
+
+.grid{
+	background: #2a5fc1;
+	box-sizing:border-box;
+
+	.square{
+		font-size: 0;
+		padding: 5px;
+		border: 5px solid #2a5fc1;
+		border-radius: 50%;
+		background: darken(#2a5fc1, 7%);
+
+		button{
+			width: 100%;
+			height: auto;
+			border-radius: 50%;
+
+			&:after {
+			  padding-top: 100%;
+			  display: block;
+			  content: '';
+			}
+		}
+	}
+}

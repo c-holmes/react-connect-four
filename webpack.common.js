@@ -8,7 +8,8 @@ module.exports = {
 		filename: './src/index.js',
 	},
 	output: {
-		filename: './public/bundle.js'
+		path: path.resolve(__dirname, 'public'),
+		filename: 'bundle.js'
 	},
 	module: {
 		// how I handle specific files
@@ -30,7 +31,7 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new ExtractTextPlugin('public/style.css', {
+		new ExtractTextPlugin('style.css', {
 		  allChunks: true
 		})
 	],
