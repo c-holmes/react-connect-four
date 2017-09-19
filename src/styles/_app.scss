@@ -19,33 +19,31 @@ body {
 }
 
 .column{
-  width:16.5%;
+  width:14.25%;
   display: inline-block;
 }
 
-.square{
-  button{
-    width: 100%;
-    border-radius: 0;
-    border-style: none;
+.admin-prompt{
+  margin-bottom: 20px;
+
+  h4{
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 30px;
+    font-weight: 400;
+  }
+
+  .submit{
+    font-size: 14px;
+    padding: 7px 15px;
+    color: #000;
     background: #f7f7f7;
-    margin: 0px;
-    outline: none;
-    border: 5px solid #f7f7f7;
+    border-radius: 0px;
+    border: 1px solid darken(#f7f7f7, 20%);
+    cursor: pointer;
 
-    &.active.player-0{
-      background: yellow;
-      border: 5px solid darken(yellow, 7%);
-    }
-
-    &.active.player-1{
-      background: red;
-      border: 5px solid darken(red, 7%);
-    }
-
-    &.active.winning-square{
-      background: #12ff12;
-      border: 5px solid darken(#12ff12, 7%);
+    &:hover{
+      background: darken(#f7f7f7, 5%);
     }
   }
 }

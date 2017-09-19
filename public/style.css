@@ -12,9 +12,7 @@ body {
 .grid {
   width: 100%;
   display: inline-block;
-  border: 1px solid #bbb;
-  padding: 5px;
-  max-width: 500px; }
+  padding: 5px; }
 
 .column {
   width: 16.5%;
@@ -25,24 +23,76 @@ body {
   border-radius: 0;
   border-style: none;
   background: #f7f7f7;
-  border: 1px solid #ddd;
   margin: 0px;
-  outline: none; }
+  outline: none;
+  border: 5px solid #f7f7f7; }
   .square button.active.player-0 {
-    background: yellow; }
+    background: yellow;
+    border: 5px solid #dbdb00; }
   .square button.active.player-1 {
-    background: red; }
+    background: red;
+    border: 5px solid #db0000; }
   .square button.active.winning-square {
-    background: #12ff12; }
+    background: #12ff12;
+    border: 5px solid #00ed00; }
 
 .grid .heading, .grid .square button {
   font-size: 0; }
 
+.board {
+  max-width: 560px;
+  width: 100%;
+  position: relative;
+  padding: 0 15px;
+  margin: 0 auto;
+  box-sizing: border-box; }
+  .board .leg {
+    position: absolute;
+    height: 110%;
+    width: 15px;
+    background: #2451a4;
+    top: 0px; }
+    .board .leg.left {
+      left: 0; }
+    .board .leg.right {
+      right: 0; }
+    .board .leg .base {
+      width: 100px;
+      height: 47px;
+      position: absolute;
+      bottom: 0;
+      right: -50px;
+      background: #2451a4; }
+      .board .leg .base:after {
+        content: "";
+        display: block;
+        width: 58px;
+        height: 52px;
+        background: #fff;
+        border-radius: 0 0 35px;
+        left: -23px;
+        bottom: -5px;
+        position: absolute; }
+      .board .leg .base:before {
+        content: "";
+        display: block;
+        width: 58px;
+        height: 52px;
+        background: #fff;
+        border-radius: 0 0 0 35px;
+        right: -8px;
+        bottom: -5px;
+        position: absolute; }
+
 .grid {
-  background: #2a5fc1; }
+  background: #2a5fc1;
+  box-sizing: border-box; }
   .grid .square {
     font-size: 0;
-    padding: 5px 10px; }
+    padding: 5px;
+    border: 5px solid #2a5fc1;
+    border-radius: 50%;
+    background: #2451a4; }
     .grid .square button {
       width: 100%;
       height: auto;

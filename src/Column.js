@@ -19,7 +19,6 @@ class Column extends Component {
 					{this.renderSquare(3)}
 					{this.renderSquare(4)}
 					{this.renderSquare(5)}
-					{this.renderSquare(6)}
 				</div>
 			</div>
 		)

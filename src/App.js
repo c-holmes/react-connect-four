@@ -8,12 +8,13 @@ class App extends Component {
     super();
     this.state = {
       game: [ 
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
       ],
       player: 0,
       clicked: false,
@@ -68,16 +69,18 @@ class App extends Component {
   handleReset() {
     this.setState({
       game: [ 
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
       ],
       player: 0,
       clicked: false,
       winner: false,
+      winStats: false,
     })
   }
   
@@ -88,15 +91,15 @@ class App extends Component {
     } 
     return (
       <div className="App">
-        <div className="board">
-          <div className="leg left"><div className="base"></div></div>
-          <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
-          <div className="leg right"><div className="base"></div></div>
-        </div>
         <div className="admin-prompt">
           <h4>Current Turn: {(this.state.player) ? "Red" : "Yellow"}</h4>
           <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
           {winMessage}
+        </div>
+        <div className="board">
+          <div className="leg left"><div className="base"><div className="corner"></div></div></div>
+          <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
+          <div className="leg right"><div className="base"><div className="corner"></div></div></div>
         </div>
       </div>
     );
@@ -105,13 +108,13 @@ class App extends Component {
   isGameFinished(gameArray, player){
     const winNum = 4;
     let winner = false;
-    let vertPiecesArray = [null,null,null,null,null,null,null];
+    let vertPiecesArray = [null,null,null,null,null,null];
     let vertWinArray = [[],[]];
-    let horsPiecesArray = [null,null,null,null,null,null,null,null];
+    let horsPiecesArray = [null,null,null,null,null,null,null];
     let horsWinArray = [[],[]];
-    let ttbDiagPiecesArray = [null,null,null,null,null,null,null];
+    let ttbDiagPiecesArray = [null,null,null,null,null,null];
     let ttbDiagWinArray = [[],[]];
-    let bttDiagPiecesArray = [null,null,null,null,null,null,null];
+    let bttDiagPiecesArray = [null,null,null,null,null,null];
     let bttDiagWinArray = [[],[]];
 
     function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player) {

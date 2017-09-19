@@ -1,0 +1,73 @@
+.square{
+	font-size: 0;
+	padding: 5px;
+
+  button{
+    width: 100%;
+    border-radius: 0;
+    border-style: none;
+    background: darken(#2a5fc1, 15%);
+    margin: 0px;
+    outline: none;
+		border-radius: 50%;
+    position: relative;
+
+    &:before {
+      content: "";
+      background: #fff;
+      position: absolute;
+      width: 95%;
+      height: 95%;
+      left: 5%;
+      top: 5%;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+		&:after {
+		  padding-top: 102%;
+		  display: block;
+		  content: '';
+		}
+
+		&.active{
+			&:before{
+				content: "";
+				position: absolute;
+				width: 99%;
+				height: 99%;
+				left: 1%;
+				top: 1%;
+				box-sizing: border-box;
+			}
+		}
+
+    &.active.player-0{
+      &:before {
+        content: "";
+        background: yellow;
+        position: absolute;
+        border: 7px solid darken(yellow, 7%);
+      }
+    }
+
+    &.active.player-1{
+      &:before {
+        content: "";
+        background: red;
+        position: absolute;
+        border: 7px solid darken(red, 7%);
+      }
+    }
+
+    &.active.winning-square{
+    	&:before {
+    	  content: "";
+    	  background: #12ff12;
+    	  position: absolute;
+    	  border: 7px solid darken(#12ff12, 7%);
+    	  box-sizing: border-box;
+    	}
+    }
+  }
+}

@@ -19,12 +19,10 @@ class Square extends Component {
 					className += " winning-square";
 				}
 			});
+		} else {
+			className += " standard";
 		}
 		return className;
-	}
-
-	checkIfWinningSquare(columnIndex, index, winStats) {
-
 	}
 
 	render() {

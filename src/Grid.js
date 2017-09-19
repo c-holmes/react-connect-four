@@ -17,6 +17,7 @@ class Grid extends Component {
 				{this.renderColumn(3)}
 				{this.renderColumn(4)}
 				{this.renderColumn(5)}
+				{this.renderColumn(6)}
 			</div>
 		)
 	}
