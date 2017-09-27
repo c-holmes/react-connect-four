@@ -2,11 +2,12 @@
   max-width: 560px;
   width: 100%;
   position: relative;
-  padding: 0 15px;
+  padding: 0px;
   margin: 0 auto;
   box-sizing:border-box;
 
   .leg{
+    display: none;
   	position: absolute;
   	height: 110%;
   	width: 15px;
@@ -94,4 +95,14 @@
   position: relative;
   z-index: 9;
   border-bottom: 3px solid darken(#2a5fc1, 22%);
+}
+
+@media all and (min-width: 767px){
+  .board{
+    padding: 0 15px;
+
+    .leg{
+      display: block;
+    }
+  }
 }

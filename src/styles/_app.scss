@@ -4,12 +4,9 @@ body {
   font-family: sans-serif;
 }
 
-.App {
-  text-align: center;
-}
-
 .App{
-  margin: 30px;
+  margin: 30px 10px;
+  text-align: center;
 }
 
 .grid{
@@ -31,6 +28,57 @@ body {
     vertical-align: middle;
     margin-right: 30px;
     font-weight: 400;
+
+    span{
+      text-shadow: 1px 1px 2px #000;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .player-0{
+      color: yellow;
+    }
+
+    .player-1{
+      color: red;
+    }
+  }
+
+  .popup{
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,.5);
+    padding: 40px;
+    max-width: 250px;
+    margin: 0 auto;
+    box-shadow: 5px 6px 20px rgba(0,0,0,.5);
+
+    &.player-0{
+      border: 4px dashed yellow;
+    }
+    
+    &.player-1{
+      border: 4px dashed red;
+    }
+
+    h3{
+      font-weight: 400;
+    }
+
+    button{
+      font-size: 14px;
+      padding: 7px 15px;
+      color: #000;
+      background: #f7f7f7;
+      border-radius: 0px;
+      border: 1px solid darken(#f7f7f7, 20%);
+      cursor: pointer;
+    }
   }
 
   .submit{
@@ -55,4 +103,8 @@ body {
   }
 }
 
-
+@media all and (min-width: 767px){
+  .App{
+    margin: 30px;
+  }
+}
