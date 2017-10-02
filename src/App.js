@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+const io = require('socket.io-client');
+const socket = io();
 import Grid from './Grid';
 import WinMessage from './WinMessage';
 require('./styles/style.scss');
@@ -20,7 +22,28 @@ class App extends Component {
       clicked: false,
       winner: false,
       winStats: false,
+      multiplayer: true,
     }
+  }
+
+  componentDidMount() {  
+    socket.on('submit_move', (move) => {
+      const game = move.gameStatus.slice();
+      const currPlayer = move.currPlayer;
+      this.setState({
+        game: game,
+        player: currPlayer
+      })
+    });
+
+    socket.on('game_won', (move) => {
+      // const winner = move.winner;
+      // const winStats = move.winStats;
+      // this.setState({
+      //   winner: winner,
+      //   winStats: winStats
+      // })
+    });
   }
 
   handleSubmitMove() {
@@ -31,12 +54,19 @@ class App extends Component {
       this.setState({
         winner: true,
         winStats: gameDone
-      })
+      });
+      socket.emit('game_won', {
+        winner: this.state.winner,
+        winStats: this.state.winStats
+      });
     } else {
       currPlayer = 1 - currPlayer;
       this.setState({
         player: currPlayer,
         clicked: false,
+      })
+      socket.emit('submit_move', {
+        gameStatus, currPlayer
       })
     }
   }

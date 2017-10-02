@@ -10,9 +10,12 @@
   "license": "MIT",
   "homepage": "http://www.cholmes.ca/connect-four",
   "dependencies": {
+    "express": "^4.16.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.12"
+    "react-scripts": "1.0.12",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
