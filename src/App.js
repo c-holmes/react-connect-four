@@ -44,7 +44,7 @@ class App extends Component {
     });
   }
 
-  handleSubmitMove() {
+  submitMove() {
     const gameStatus = this.state.game.slice();
     let currPlayer = this.state.player;
     let gameDone = this.isGameFinished(gameStatus, currPlayer);
@@ -93,7 +93,9 @@ class App extends Component {
       this.setState({
         game: newGameStatus,
         clicked: true,
-      })
+      });
+
+      this.submitMove();
     }
   }
 
@@ -124,7 +126,6 @@ class App extends Component {
       <div className="App">
         <div className="admin-prompt">
           <h4>Current Turn: <span className={'player-' + this.state.player}>{(this.state.player) ? "Red" : "Yellow"}</span></h4>
-          <button className="submit" onClick={() => this.handleSubmitMove()} >Submit Move</button>
           {winMessage}
         </div>
         <div className="board">
