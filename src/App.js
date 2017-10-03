@@ -18,6 +18,7 @@ class App extends Component {
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
       ],
+      currTurn: 0,
       player: 0,
       clicked: false,
       winner: false,
@@ -27,27 +28,35 @@ class App extends Component {
   }
 
   componentDidMount() {  
-    socket.on('submit_move', (move) => {
-      this.setState({
-        game: move.game,
-        player: move.player
-      })
-    });
+    if(this.state.multiplayer) {
+      socket.on('player_assign', (playerNum) => {
+        this.setState({
+          player: playerNum
+        })
+      });
 
-    socket.on('game_won', (move) => {
-      this.setState({
-        game: move.game,
-        player: move.player,
-        winner: move.winner,
-        winStats: move.winStats
-      })
-    });
+      socket.on('submit_move', (move) => {
+        this.setState({
+          game: move.game,
+          currTurn: move.currTurn
+        })
+      });
+
+      socket.on('game_won', (move) => {
+        this.setState({
+          game: move.game,
+          currTurn: move.currTurn,
+          winner: move.winner,
+          winStats: move.winStats
+        })
+      });
+    }
   }
 
   submitMove() {
     const gameStatus = this.state.game.slice();
-    let currPlayer = this.state.player;
-    let gameDone = this.isGameFinished(gameStatus, currPlayer);
+    let currTurn = this.state.currTurn;
+    let gameDone = this.isGameFinished(gameStatus, currTurn);
     if(gameDone){
       this.setState({
         winner: true,
@@ -55,19 +64,19 @@ class App extends Component {
       });
       socket.emit('game_won', {
         game: gameStatus,
-        player: currPlayer,
+        currTurn: currTurn,
         winner: true,
         winStats: gameDone,
       });
     } else {
-      currPlayer = 1 - currPlayer;
+      currTurn = 1 - currTurn;
       this.setState({
-        player: currPlayer,
+        currTurn: currTurn,
         clicked: false,
       })
       socket.emit('submit_move', {
         game: gameStatus,
-        player: currPlayer
+        currTurn: currTurn
       })
     }
   }
@@ -89,7 +98,7 @@ class App extends Component {
         }
       }
 
-      newGameStatus[props.columnIndex][index] = props.player;
+      newGameStatus[props.columnIndex][index] = props.currTurn;
       this.setState({
         game: newGameStatus,
         clicked: true,
@@ -110,7 +119,7 @@ class App extends Component {
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
       ],
-      player: 0,
+      currTurn: 0,
       clicked: false,
       winner: false,
       winStats: false,
@@ -120,24 +129,24 @@ class App extends Component {
   render() {
     let winMessage;
     if(this.state.winner){
-      winMessage = <WinMessage stats={this.state.winStats} player={this.state.player} onClick={(i) => this.handleReset(i)} />;
+      winMessage = <WinMessage stats={this.state.winStats} currTurn={this.state.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 
     return (
       <div className="App">
         <div className="admin-prompt">
-          <h4>Current Turn: <span className={'player-' + this.state.player}>{(this.state.player) ? "Red" : "Yellow"}</span></h4>
+          <h4>Current Turn: <span className={'player-' + this.state.currTurn}>{(this.state.currTurn) ? "Red" : "Yellow"}</span></h4>
           {winMessage}
         </div>
         <div className="board">
           <div className="leg left"><div className="base"><div className="corner"></div></div></div>
-          <Grid player={this.state.player} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
+          <Grid currTurn={this.state.currTurn} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
           <div className="leg right"><div className="base"><div className="corner"></div></div></div>
         </div>
       </div>
     );
   }
 
-  isGameFinished(gameArray, player){
+  isGameFinished(gameArray, currTurn){
     const winNum = 4;
     let winner = false;
     let vertPiecesArray = [null,null,null,null,null,null];
@@ -149,11 +158,11 @@ class App extends Component {
     let bttDiagPiecesArray = [null,null,null,null,null,null];
     let bttDiagWinArray = [[],[]];
 
-    function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player) {
+    function checkForVerticalWin(pieceValue, pieceIndex, columnIndex, currTurn) {
       //count consecutive pieces
-      if (pieceValue !== null && pieceValue === player) {
+      if (pieceValue !== null && pieceValue === currTurn) {
         vertPiecesArray[columnIndex]++;
-        vertWinArray[player].push([columnIndex,pieceIndex]);
+        vertWinArray[currTurn].push([columnIndex,pieceIndex]);
       } else {
         vertPiecesArray[columnIndex] = null;
       }
@@ -161,7 +170,7 @@ class App extends Component {
       //check if theres a winner
       if (vertPiecesArray[columnIndex] === winNum) {
         //only return the winning indexes
-        const winArray = vertWinArray[player].filter((i) => {
+        const winArray = vertWinArray[currTurn].filter((i) => {
           if(i[0] === columnIndex){
             return i;
           }
@@ -174,17 +183,17 @@ class App extends Component {
       } 
     }
 
-    function checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, player) {
-      if ( pieceValue !== null && pieceValue === player) {
+    function checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, currTurn) {
+      if ( pieceValue !== null && pieceValue === currTurn) {
         horsPiecesArray[pieceIndex]++;
-        horsWinArray[player].push([columnIndex,pieceIndex]);
+        horsWinArray[currTurn].push([columnIndex,pieceIndex]);
       } else {
         horsPiecesArray[pieceIndex] = null;
       }
 
       //check if theres a winner
       if (horsPiecesArray[pieceIndex] === winNum) {
-        const winArray = horsWinArray[player].filter((i) => {
+        const winArray = horsWinArray[currTurn].filter((i) => {
           if(i[1] === pieceIndex){
             return i;
           }
@@ -197,22 +206,22 @@ class App extends Component {
       }
     }
 
-    function checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player) {
+    function checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, currTurn) {
       // a diagonal win can either come from bottom to top (btt) or top to bottom (ttb)
       // To group squares into their appropriate diagonals array, we must subtract the piece index and column index, to get a common number
       // 3 is added to keep numbers positive, so they map to the correct array index
       let ttbDiagGroupIndex = pieceIndex - columnIndex + 3;
       let bttDiagGroupIndex = pieceIndex + columnIndex - 3;
 
-      if (pieceValue !== null && pieceValue === player) {
+      if (pieceValue !== null && pieceValue === currTurn) {
         // we are only checking the 5 diagonal groups that have a total of 4 or more pieces 
         if(ttbDiagGroupIndex <= 6 && ttbDiagGroupIndex >= 0){
           ttbDiagPiecesArray[ttbDiagGroupIndex]++;
-          ttbDiagWinArray[player].push([columnIndex,pieceIndex]);                
+          ttbDiagWinArray[currTurn].push([columnIndex,pieceIndex]);                
         }
         if (bttDiagGroupIndex <= 5 && bttDiagGroupIndex >= 0) {
           bttDiagPiecesArray[bttDiagGroupIndex]++;
-          bttDiagWinArray[player].push([columnIndex,pieceIndex]);
+          bttDiagWinArray[currTurn].push([columnIndex,pieceIndex]);
         }
       } else {
         // reset array to 0 (null) 
@@ -228,14 +237,14 @@ class App extends Component {
       if (ttbDiagPiecesArray[ttbDiagGroupIndex] === winNum || bttDiagPiecesArray[bttDiagGroupIndex] === winNum) {
         let winArray;
         if (ttbDiagPiecesArray[ttbDiagGroupIndex] === winNum) {
-          winArray = ttbDiagWinArray[player].filter((i) => {
+          winArray = ttbDiagWinArray[currTurn].filter((i) => {
             if((i[1] - i[0] + 3 ) === ttbDiagGroupIndex) {
               return i;
             }
             return;
           });
         } else {
-          winArray = bttDiagWinArray[player].filter((i) => {
+          winArray = bttDiagWinArray[currTurn].filter((i) => {
             if((i[0] + i[1] - 3) === bttDiagGroupIndex) {
               return i;
             }
@@ -253,13 +262,13 @@ class App extends Component {
     for (const [columnIndex, column] of gameArray.entries()) {
       if (!winner) {
         for (const [pieceIndex, pieceValue] of column.entries()) {        
-          checkForVerticalWin(pieceValue, pieceIndex, columnIndex, player);
+          checkForVerticalWin(pieceValue, pieceIndex, columnIndex, currTurn);
           if (winner) break;
           
-          checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, player);
+          checkForHorizontalWin(pieceValue, pieceIndex, columnIndex, currTurn);
           if (winner) break;
 
-          checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, player);
+          checkForDiagonalWin(pieceValue, pieceIndex, columnIndex, currTurn);
           if (winner) break;
         }
       }

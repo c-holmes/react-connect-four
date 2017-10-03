@@ -12,8 +12,20 @@ app.get('/', (req, res) => {
 
 /* Socket.IO server set up. */
 const sio = io.listen(server);
+let player = 0;
 sio.on('connection', (socket) => {
-  console.log('a user connected');
+  socket.join('active-game-room');
+  let room = sio.sockets.adapter.rooms['active-game-room'];
+
+  if(room.length > 2){
+  	socket.leave('active-game-room');
+  	console.log('only 2 allowed in the game room')
+  }
+
+  //assign player number
+  socket.emit('player_assign', player);
+  console.log(`Player ${player} connected`);
+  player = 1 - player;
 
   socket.on('submit_move', (msg) => {
     sio.emit('submit_move', msg);
