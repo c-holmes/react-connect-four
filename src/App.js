@@ -28,21 +28,19 @@ class App extends Component {
 
   componentDidMount() {  
     socket.on('submit_move', (move) => {
-      const game = move.gameStatus.slice();
-      const currPlayer = move.currPlayer;
       this.setState({
-        game: game,
-        player: currPlayer
+        game: move.game,
+        player: move.player
       })
     });
 
     socket.on('game_won', (move) => {
-      // const winner = move.winner;
-      // const winStats = move.winStats;
-      // this.setState({
-      //   winner: winner,
-      //   winStats: winStats
-      // })
+      this.setState({
+        game: move.game,
+        player: move.player,
+        winner: move.winner,
+        winStats: move.winStats
+      })
     });
   }
 
@@ -56,8 +54,10 @@ class App extends Component {
         winStats: gameDone
       });
       socket.emit('game_won', {
-        winner: this.state.winner,
-        winStats: this.state.winStats
+        game: gameStatus,
+        player: currPlayer,
+        winner: true,
+        winStats: gameDone,
       });
     } else {
       currPlayer = 1 - currPlayer;
@@ -66,7 +66,8 @@ class App extends Component {
         clicked: false,
       })
       socket.emit('submit_move', {
-        gameStatus, currPlayer
+        game: gameStatus,
+        player: currPlayer
       })
     }
   }
