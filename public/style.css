@@ -4,35 +4,9 @@ body {
   font-family: sans-serif; }
 
 .App {
-  margin: 30px 10px;
+  margin: 65px auto 0;
   text-align: center; }
-
-.grid {
-  width: 100%;
-  display: inline-block;
-  padding: 5px; }
-
-.column {
-  width: 14.25%;
-  display: inline-block; }
-
-.admin-prompt {
-  margin-bottom: 20px; }
-  .admin-prompt h4 {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 30px;
-    font-weight: 400; }
-    .admin-prompt h4 span {
-      text-shadow: 1px 1px 2px #000;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 700; }
-    .admin-prompt h4 .player-0 {
-      color: yellow; }
-    .admin-prompt h4 .player-1 {
-      color: red; }
-  .admin-prompt .popup {
+  .App .popup {
     position: absolute;
     z-index: 99;
     left: 0;
@@ -44,13 +18,13 @@ body {
     max-width: 250px;
     margin: 0 auto;
     box-shadow: 5px 6px 20px rgba(0, 0, 0, 0.5); }
-    .admin-prompt .popup.player-0 {
+    .App .popup.player-0 {
       border: 4px dashed yellow; }
-    .admin-prompt .popup.player-1 {
+    .App .popup.player-1 {
       border: 4px dashed red; }
-    .admin-prompt .popup h3 {
+    .App .popup h3 {
       font-weight: 400; }
-    .admin-prompt .popup button {
+    .App .popup button {
       font-size: 14px;
       padding: 7px 15px;
       color: #000;
@@ -58,23 +32,71 @@ body {
       border-radius: 0px;
       border: 1px solid #c4c4c4;
       cursor: pointer; }
-  .admin-prompt .submit {
-    font-size: 14px;
-    padding: 7px 15px;
-    color: #000;
+  .App .admin-bar {
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    width: 100%;
     background: #f7f7f7;
-    border-radius: 0px;
-    border: 1px solid #c4c4c4;
-    cursor: pointer; }
-    .admin-prompt .submit:hover {
-      background: #eaeaea; }
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px;
+    font-size: 11px; }
+    .App .admin-bar .item {
+      padding: 5px 5px;
+      display: inline-block; }
+    .App .admin-bar .score {
+      display: inline-block;
+      background: #fb8383;
+      color: #fff;
+      font-weight: 300;
+      margin-right: 5px; }
+      .App .admin-bar .score .item {
+        padding: 5px 10px;
+        display: inline-block; }
+        .App .admin-bar .score .item.player0 {
+          background: yellow;
+          border: 1px solid #cccc00;
+          color: #000; }
+        .App .admin-bar .score .item.player1 {
+          background: red;
+          border: 1px solid #cc0000; }
+      .App .admin-bar .score .label {
+        padding: 5px; }
+  .App .curr-turn span {
+    letter-spacing: 1px;
+    font-weight: 700;
+    position: relative;
+    padding-left: 20px; }
+    .App .curr-turn span:after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%; }
+  .App .curr-turn .player-0:after {
+    background: yellow;
+    border: 1px solid #cccc00; }
+  .App .curr-turn .player-1:after {
+    background: red;
+    border: 1px solid #cc0000; }
+
+.grid {
+  width: 100%;
+  display: inline-block;
+  padding: 5px; }
+
+.column {
+  width: 14.25%;
+  display: inline-block; }
 
 .grid .heading, .grid .square button {
   font-size: 0; }
 
 @media all and (min-width: 767px) {
   .App {
-    margin: 30px; } }
+    margin: 90px 30px; } }
 
 .board {
   max-width: 560px;

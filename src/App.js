@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 const io = require('socket.io-client');
 const socket = io();
+import AdminBar from './AdminBar';
 import Grid from './Grid';
 import WinMessage from './WinMessage';
 require('./styles/style.scss');
@@ -24,6 +25,11 @@ class App extends Component {
       winner: false,
       winStats: false,
       multiplayer: true,
+      gameNum: 0,
+      score: {
+        player1: 0,
+        player2: 0,
+      }
     }
   }
 
@@ -62,27 +68,35 @@ class App extends Component {
         winner: true,
         winStats: gameDone
       });
-      socket.emit('game_won', {
-        game: gameStatus,
-        currTurn: currTurn,
-        winner: true,
-        winStats: gameDone,
-      });
+      if(this.state.multiplayer){
+        socket.emit('game_won', {
+          game: gameStatus,
+          currTurn: currTurn,
+          winner: true,
+          winStats: gameDone,
+        });
+      }
     } else {
       currTurn = 1 - currTurn;
       this.setState({
         currTurn: currTurn,
         clicked: false,
-      })
-      socket.emit('submit_move', {
-        game: gameStatus,
-        currTurn: currTurn
-      })
+      });
+      if(this.state.multiplayer){
+        socket.emit('submit_move', {
+          game: gameStatus,
+          currTurn: currTurn
+        });
+      } else {
+        this.setState({
+          player: currTurn
+        })
+      }
     }
   }
 
   handleSquareClick(props) {
-    if(!this.state.clicked){
+    if((!this.state.clicked) && (this.state.player == this.state.currTurn)){
       const newGameStatus = this.state.game.slice();
       const length = newGameStatus[props.columnIndex].length - 1;
       let index;
@@ -133,15 +147,13 @@ class App extends Component {
     } 
     return (
       <div className="App">
-        <div className="admin-prompt">
-          <h4>Current Turn: <span className={'player-' + this.state.currTurn}>{(this.state.currTurn) ? "Red" : "Yellow"}</span></h4>
-          {winMessage}
-        </div>
+        <AdminBar multiplayer={this.state.multiplayer} player={this.state.player} gameNum={this.state.gameNum} score={this.state.score} turn={this.state.currTurn} />
         <div className="board">
           <div className="leg left"><div className="base"><div className="corner"></div></div></div>
           <Grid currTurn={this.state.currTurn} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
           <div className="leg right"><div className="base"><div className="corner"></div></div></div>
         </div>
+        {winMessage}
       </div>
     );
   }
