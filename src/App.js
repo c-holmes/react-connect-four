@@ -26,10 +26,7 @@ class App extends Component {
       winStats: false,
       multiplayer: true,
       gameNum: 0,
-      score: {
-        player1: 0,
-        player2: 0,
-      }
+      score: [0, 0]
     }
   }
 
@@ -41,19 +38,31 @@ class App extends Component {
         })
       });
 
-      socket.on('submit_move', (move) => {
+      socket.on('submit_move', (data) => {
         this.setState({
-          game: move.game,
-          currTurn: move.currTurn
+          game: data.game,
+          currTurn: data.currTurn
         })
       });
 
-      socket.on('game_won', (move) => {
+      socket.on('game_won', (data) => {
         this.setState({
-          game: move.game,
-          currTurn: move.currTurn,
-          winner: move.winner,
-          winStats: move.winStats
+          game: data.game,
+          currTurn: data.currTurn,
+          winner: data.winner,
+          winStats: data.winStats
+        })
+      });
+
+      socket.on('game_reset', (data) => {
+        this.setState({
+          game: data.game,
+          currTurn: data.currTurn,
+          clicked: data.clicked,
+          winner: data.winner,
+          winStats: data.winStats,
+          gameNum: data.gameNum,
+          score: data.score
         })
       });
     }
@@ -123,7 +132,11 @@ class App extends Component {
   }
 
   handleReset() {
-    this.setState({
+    const currGameNum = this.state.gameNum + 1;
+    const winner = this.state.currTurn;
+    let scoreUpdate = this.state.score.slice();
+    scoreUpdate[winner] = scoreUpdate[winner] + 1;
+    const resetState = {
       game: [ 
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
@@ -137,7 +150,15 @@ class App extends Component {
       clicked: false,
       winner: false,
       winStats: false,
-    })
+      gameNum: currGameNum,
+      score: scoreUpdate
+    }
+    if(this.state.multiplayer){
+      console.log(resetState);
+      socket.emit('game_reset', resetState);
+    } else {
+      this.setState(resetState);
+    }
   }
   
   render() {

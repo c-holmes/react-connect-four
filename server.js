@@ -27,12 +27,16 @@ sio.on('connection', (socket) => {
   console.log(`Player ${player} connected`);
   player = 1 - player;
 
-  socket.on('submit_move', (msg) => {
-    sio.emit('submit_move', msg);
+  socket.on('submit_move', (data) => {
+    sio.emit('submit_move', data);
   });
 
-  socket.on('game_won', (msg) => {
-    sio.emit('game_won', msg);
+  socket.on('game_won', (data) => {
+    sio.emit('game_won', data);
+  });
+
+  socket.on('game_reset', (data) => {
+    sio.emit('game_reset', data);
   });
 
   socket.on('disconnect', () => {
