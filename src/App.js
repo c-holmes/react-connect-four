@@ -52,7 +52,7 @@ class App extends Component {
           winner: data.winner,
           winStats: data.winStats
         })
-      });
+      }); 
 
       socket.on('game_reset', (data) => {
         this.setState({
@@ -134,7 +134,7 @@ class App extends Component {
   handleReset() {
     const currGameNum = this.state.gameNum + 1;
     const winner = this.state.currTurn;
-    let scoreUpdate = this.state.score.slice();
+    let scoreUpdate = this.state.score.slice(); 
     scoreUpdate[winner] = scoreUpdate[winner] + 1;
     const resetState = {
       game: [ 
@@ -166,6 +166,7 @@ class App extends Component {
     if(this.state.winner){
       winMessage = <WinMessage stats={this.state.winStats} currTurn={this.state.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 
+    console.log(this.state);
     return (
       <div className="App">
         <AdminBar multiplayer={this.state.multiplayer} player={this.state.player} gameNum={this.state.gameNum} score={this.state.score} turn={this.state.currTurn} />
