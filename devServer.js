@@ -50,7 +50,8 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 /* Express server set up. */
-app.get('/', (req, res) => {
+// use * to always serve the index file (needed for react router)
+app.get('*', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
 });
 
