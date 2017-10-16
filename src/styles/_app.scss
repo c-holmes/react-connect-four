@@ -7,6 +7,28 @@ body {
 .App{
   margin: 65px auto 0;
   text-align: center;
+  
+  .home{
+    .game-menu{
+      .home{
+        display:none;
+      }
+    }
+  }
+
+  .play{
+    .game-menu{
+      li{
+        display: none;
+
+        &.home{
+          display: inline-block;
+        }
+      }
+    }
+  }
+
+
 
   .popup{
     position: absolute;
