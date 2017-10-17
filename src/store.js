@@ -9,13 +9,12 @@ const defaultState = {
 };
 
 const store = createStore(
-	rootReducer,
-	defaultState
+	rootReducer
 );
 
-store.dispatch().then(() => {
-	console.log(store.getState());
-});
+// store.dispatch().then(() => {
+// 	console.log(store.getState());
+// });
 
-export const history = syncHistoryWithStore(browserHistory, store);
+// export const history = syncHistoryWithStore(browserHistory, store);
 export default store;

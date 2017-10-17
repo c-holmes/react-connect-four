@@ -4,7 +4,6 @@ const socket = io();
 import AdminBar from './AdminBar';
 import Grid from './Grid';
 import WinMessage from './WinMessage';
-require('./styles/style.scss');
 
 class Game extends Component {
   constructor() {
@@ -105,6 +104,7 @@ class Game extends Component {
   }
 
   handleSquareClick(props) {
+    this.props.submitMove('test1','test2','test3');
     if((!this.state.clicked) && (this.state.player == this.state.currTurn)){
       const newGameStatus = this.state.game.slice();
       const length = newGameStatus[props.columnIndex].length - 1;
