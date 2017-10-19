@@ -6,28 +6,28 @@ import Grid from './Grid';
 import WinMessage from './WinMessage';
 
 class Game extends Component {
-  constructor() {
-    super();
-    this.state = {
-      game: [ 
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-      ],
-      currTurn: 0,
-      player: 0,
-      clicked: false,
-      winner: false,
-      winStats: false,
-      multiplayer: true,
-      gameNum: 0,
-      score: [0, 0]
-    }
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     game: [ 
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //       [null, null, null, null, null, null],
+  //     ],
+  //     currTurn: 0,
+  //     player: 0,
+  //     clicked: false,
+  //     winner: false,
+  //     winStats: false,
+  //     multiplayer: true,
+  //     gameNum: 0,
+  //     score: [0, 0]
+  //   }
+  // }
 
   componentDidMount() {  
     if(this.state.multiplayer) {
@@ -67,44 +67,43 @@ class Game extends Component {
     }
   }
 
-  submitMove() {
-    const gameStatus = this.state.game.slice();
-    let currTurn = this.state.currTurn;
-    let gameDone = this.isGameFinished(gameStatus, currTurn);
-    if(gameDone){
-      this.setState({
-        winner: true,
-        winStats: gameDone
-      });
-      if(this.state.multiplayer){
-        socket.emit('game_won', {
-          game: gameStatus,
-          currTurn: currTurn,
-          winner: true,
-          winStats: gameDone,
-        });
-      }
-    } else {
-      currTurn = 1 - currTurn;
-      this.setState({
-        currTurn: currTurn,
-        clicked: false,
-      });
-      if(this.state.multiplayer){
-        socket.emit('submit_move', {
-          game: gameStatus,
-          currTurn: currTurn
-        });
-      } else {
-        this.setState({
-          player: currTurn
-        })
-      }
-    }
-  }
+  // submitMove() {
+  //   const gameStatus = this.state.game.slice();
+  //   let currTurn = this.state.currTurn;
+  //   let gameDone = this.isGameFinished(gameStatus, currTurn);
+  //   if(gameDone){
+  //     this.setState({
+  //       winner: true,
+  //       winStats: gameDone
+  //     });
+  //     if(this.state.multiplayer){
+  //       socket.emit('game_won', {
+  //         game: gameStatus,
+  //         currTurn: currTurn,
+  //         winner: true,
+  //         winStats: gameDone,
+  //       });
+  //     }
+  //   } else {
+  //     currTurn = 1 - currTurn;
+  //     this.setState({
+  //       currTurn: currTurn,
+  //       clicked: false,
+  //     });
+  //     if(this.state.multiplayer){
+  //       socket.emit('submit_move', {
+  //         game: gameStatus,
+  //         currTurn: currTurn
+  //       });
+  //     } else {
+  //       this.setState({
+  //         player: currTurn
+  //       })
+  //     }
+  //   }
+  // }
 
   handleSquareClick(props) {
-    this.props.submitMove('test1','test2','test3');
     if((!this.state.clicked) && (this.state.player == this.state.currTurn)){
       const newGameStatus = this.state.game.slice();
       const length = newGameStatus[props.columnIndex].length - 1;
@@ -127,7 +126,8 @@ class Game extends Component {
         clicked: true,
       });
 
-      this.submitMove();
+      // this.submitMove();
+      this.props.submitMove('test1','test2','test3');
     }
   }
 
@@ -163,15 +163,16 @@ class Game extends Component {
   
   render() {
     let winMessage;
-    if(this.state.winner){
-      winMessage = <WinMessage stats={this.state.winStats} currTurn={this.state.currTurn} onClick={(i) => this.handleReset(i)} />;
+    console.log(this.props.gameData);
+    if(this.props.gameData.winner){
+      winMessage = <WinMessage stats={this.props.gameData.winStats} currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 
     return (
       <div className="Game">
-        <AdminBar multiplayer={this.state.multiplayer} player={this.state.player} gameNum={this.state.gameNum} score={this.state.score} turn={this.state.currTurn} />
+        <AdminBar multiplayer={this.props.gameData.multiplayer} player={this.props.gameData.player} gameNum={this.props.gameData.gameNum} score={this.props.gameData.score} turn={this.props.gameData.currTurn} />
         <div className="board">
           <div className="leg left"><div className="base"><div className="corner"></div></div></div>
-          <Grid currTurn={this.state.currTurn} onClick={(i) => this.handleSquareClick(i)} game={this.state.game} winStats={this.state.winStats} />
+          <Grid currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleSquareClick(i)} game={this.props.gameData.game} winStats={this.props.gameData.winStats} />
           <div className="leg right"><div className="base"><div className="corner"></div></div></div>
         </div>
         {winMessage}

@@ -6,3 +6,7 @@ export function submitMove(id, gameState, currTurn) {
 		currTurn
 	}
 }
+
+export function resetGame() {
+	
+}
