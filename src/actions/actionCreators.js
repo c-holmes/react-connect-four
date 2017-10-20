@@ -1,12 +1,18 @@
-export function submitMove(id, gameState, currTurn) {
+export function issueWinMsg(id, winner, winStats) {
 	return {
-		type: 'SUBMIT_MOVE',
+		type: 'ISSUE_WIN_MSG',
 		id,
-		gameState,
-		currTurn
+		winner,
+		winStats,
 	}
 }
 
-export function resetGame() {
-	
+export function nextTurn(id, gameStatus, currTurn, clicked) {
+	return {
+		type: 'NEXT_TURN',
+		id,
+		gameStatus,
+		currTurn,
+		clicked,
+	}
 }

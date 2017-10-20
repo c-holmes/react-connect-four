@@ -6,31 +6,8 @@ import Grid from './Grid';
 import WinMessage from './WinMessage';
 
 class Game extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     game: [ 
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //       [null, null, null, null, null, null],
-  //     ],
-  //     currTurn: 0,
-  //     player: 0,
-  //     clicked: false,
-  //     winner: false,
-  //     winStats: false,
-  //     multiplayer: true,
-  //     gameNum: 0,
-  //     score: [0, 0]
-  //   }
-  // }
-
   componentDidMount() {  
-    if(this.state.multiplayer) {
+    if(this.props.gameData.multiplayer) {
       socket.on('player_assign', (playerNum) => {
         this.setState({
           player: playerNum
@@ -67,50 +44,16 @@ class Game extends Component {
     }
   }
 
-  // submitMove() {
-  //   const gameStatus = this.state.game.slice();
-  //   let currTurn = this.state.currTurn;
-  //   let gameDone = this.isGameFinished(gameStatus, currTurn);
-  //   if(gameDone){
-  //     this.setState({
-  //       winner: true,
-  //       winStats: gameDone
-  //     });
-  //     if(this.state.multiplayer){
-  //       socket.emit('game_won', {
-  //         game: gameStatus,
-  //         currTurn: currTurn,
-  //         winner: true,
-  //         winStats: gameDone,
-  //       });
-  //     }
-  //   } else {
-  //     currTurn = 1 - currTurn;
-  //     this.setState({
-  //       currTurn: currTurn,
-  //       clicked: false,
-  //     });
-  //     if(this.state.multiplayer){
-  //       socket.emit('submit_move', {
-  //         game: gameStatus,
-  //         currTurn: currTurn
-  //       });
-  //     } else {
-  //       this.setState({
-  //         player: currTurn
-  //       })
-  //     }
-  //   }
-  // }
-
   handleSquareClick(props) {
-    if((!this.state.clicked) && (this.state.player == this.state.currTurn)){
-      const newGameStatus = this.state.game.slice();
-      const length = newGameStatus[props.columnIndex].length - 1;
+    if((!this.props.gameData.clicked) && (this.props.gameData.player == this.props.gameData.currTurn)){
+      //get position of move
+      const gameStatus = this.props.gameData.game.slice();
+      const length = gameStatus[props.columnIndex].length - 1;
+      let currTurn = props.currTurn
       let index;
 
-      //to account for pieces to obey gravity and stack from the bottom up
-      for (let [i, value] of newGameStatus[props.columnIndex].entries()){
+      for (let [i, value] of gameStatus[props.columnIndex].entries()){
+        //to account for pieces to obey gravity and stack from the bottom up
         if(value !== null){
           index = i - 1;
           break;
@@ -119,15 +62,74 @@ class Game extends Component {
           break;
         }
       }
+      gameStatus[props.columnIndex][index] = currTurn;
 
-      newGameStatus[props.columnIndex][index] = props.currTurn;
+      //check if winning move
+      let gameDone = this.isGameFinished(gameStatus, currTurn);
+      if(gameDone){
+        this.props.issueWinMsg('id123', gameStatus, currTurn);
+
+        if(this.state.multiplayer){
+          //let other player know game is won
+          socket.emit('game_won', {
+            game: gameStatus,
+            currTurn: currTurn,
+            winner: true,
+            winStats: gameDone,
+          });
+        }
+      } else {
+        currTurn = 1 - currTurn;
+        this.props.nextTurn('id123', gameStatus, currTurn, false);
+
+        if(this.state.multiplayer){
+          socket.emit('submit_move', {
+            game: gameStatus,
+            currTurn: currTurn
+          });
+        } else {
+          // single player stuff
+          // this.setState({
+          //   player: currTurn
+          // })
+        }
+      }
+    }
+  }
+
+  submitMove() {
+    const gameStatus = this.state.game.slice();
+    let currTurn = this.state.currTurn;
+    let gameDone = this.isGameFinished(gameStatus, currTurn);
+    if(gameDone){
       this.setState({
-        game: newGameStatus,
-        clicked: true,
+        winner: true,
+        winStats: gameDone
       });
-
-      // this.submitMove();
-      this.props.submitMove('test1','test2','test3');
+      if(this.state.multiplayer){
+        socket.emit('game_won', {
+          game: gameStatus,
+          currTurn: currTurn,
+          winner: true,
+          winStats: gameDone,
+        });
+      }
+    } else {
+      currTurn = 1 - currTurn;
+      this.setState({
+        currTurn: currTurn,
+        clicked: false,
+      });
+      if(this.state.multiplayer){
+        socket.emit('submit_move', {
+          game: gameStatus,
+          currTurn: currTurn
+        });
+      } else {
+        this.setState({
+          player: currTurn
+        })
+      }
     }
   }
 
@@ -163,7 +165,6 @@ class Game extends Component {
   
   render() {
     let winMessage;
-    console.log(this.props.gameData);
     if(this.props.gameData.winner){
       winMessage = <WinMessage stats={this.props.gameData.winStats} currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 
