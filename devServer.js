@@ -10,10 +10,12 @@ const compiler = webpack(config);
 /* Socket.IO server set up. */
 const sio = io.listen(server);
 let player = 0;
+
 sio.on('connection', (socket) => {
+
   socket.join('active-game-room');
   let room = sio.sockets.adapter.rooms['active-game-room'];
-
+  // console.log(socket);
   if(room.length > 2){
   	socket.leave('active-game-room');
   	console.log('only 2 allowed in the game room')
@@ -24,12 +26,12 @@ sio.on('connection', (socket) => {
   console.log(`Player ${player} connected`);
   player = 1 - player;
 
-  socket.on('submit_move', (data) => {
-    sio.emit('submit_move', data);
+  socket.on('player_submit_move', (data) => {
+    sio.emit('player_submit_move', data);
   });
 
-  socket.on('game_won', (data) => {
-    sio.emit('game_won', data);
+  socket.on('player_game_over_msg', (data) => {
+    sio.emit('player_game_over_msg', data);
   });
 
   socket.on('game_reset', (data) => {

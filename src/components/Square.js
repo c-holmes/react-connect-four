@@ -13,7 +13,6 @@ class Square extends Component {
 
 		//check win status
 		if(winStats){
-			console.log(winStats);
 			winStats.winArray.forEach((i) => {
 				if(i[0] === columnIndex && i[1] === index) {
 					className += " winning-square";

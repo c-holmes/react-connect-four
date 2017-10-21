@@ -7,39 +7,21 @@ import WinMessage from './WinMessage';
 
 class Game extends Component {
   componentDidMount() {  
-    if(this.props.gameData.multiplayer) {
+    if(this.props.gameData.multiplayer) {      
       socket.on('player_assign', (playerNum) => {
-        this.setState({
-          player: playerNum
-        })
+        this.props.playerAssign('id123', playerNum);
       });
 
-      socket.on('submit_move', (data) => {
-        this.setState({
-          game: data.game,
-          currTurn: data.currTurn
-        })
+      socket.on('player_submit_move', (data) => {
+        this.props.playerSubmitMove(data.id, data.game, data.currTurn);
       });
 
-      socket.on('game_won', (data) => {
-        this.setState({
-          game: data.game,
-          currTurn: data.currTurn,
-          winner: data.winner,
-          winStats: data.winStats
-        })
+      socket.on('player_game_over_msg', (data) => {
+        this.props.playerGameOverMsg(data.id, data.game, data.currTurn, data.winner, data.winStats);
       }); 
 
       socket.on('game_reset', (data) => {
-        this.setState({
-          game: data.game,
-          currTurn: data.currTurn,
-          clicked: data.clicked,
-          winner: data.winner,
-          winStats: data.winStats,
-          gameNum: data.gameNum,
-          score: data.score
-        })
+        this.props.gameReset(data.id, data.game, data.currTurn, data.clicked, data.winner, data.winStats, data.gameNum, data.score);
       });
     }
   }
@@ -67,11 +49,12 @@ class Game extends Component {
       //check if winning move
       let gameDone = this.isGameFinished(gameStatus, currTurn);
       if(gameDone){
-        this.props.issueWinMsg('id123', gameStatus, currTurn);
+        this.props.issueWinMsg('id123', gameStatus, currTurn, true, gameDone);
 
-        if(this.state.multiplayer){
+        if(this.props.gameData.multiplayer){
           //let other player know game is won
-          socket.emit('game_won', {
+          socket.emit('player_game_over_msg', {
+            id: 'id123',
             game: gameStatus,
             currTurn: currTurn,
             winner: true,
@@ -82,8 +65,9 @@ class Game extends Component {
         currTurn = 1 - currTurn;
         this.props.nextTurn('id123', gameStatus, currTurn, false);
 
-        if(this.state.multiplayer){
-          socket.emit('submit_move', {
+        if(this.props.gameData.multiplayer){
+          socket.emit('player_submit_move', {
+            id: 'id123',
             game: gameStatus,
             currTurn: currTurn
           });
@@ -97,48 +81,13 @@ class Game extends Component {
     }
   }
 
-  submitMove() {
-    const gameStatus = this.state.game.slice();
-    let currTurn = this.state.currTurn;
-    let gameDone = this.isGameFinished(gameStatus, currTurn);
-    if(gameDone){
-      this.setState({
-        winner: true,
-        winStats: gameDone
-      });
-      if(this.state.multiplayer){
-        socket.emit('game_won', {
-          game: gameStatus,
-          currTurn: currTurn,
-          winner: true,
-          winStats: gameDone,
-        });
-      }
-    } else {
-      currTurn = 1 - currTurn;
-      this.setState({
-        currTurn: currTurn,
-        clicked: false,
-      });
-      if(this.state.multiplayer){
-        socket.emit('submit_move', {
-          game: gameStatus,
-          currTurn: currTurn
-        });
-      } else {
-        this.setState({
-          player: currTurn
-        })
-      }
-    }
-  }
-
   handleReset() {
-    const currGameNum = this.state.gameNum + 1;
-    const winner = this.state.currTurn;
-    let scoreUpdate = this.state.score.slice(); 
+    const currGameNum = this.props.gameData.gameNum + 1;
+    const winner = this.props.gameData.currTurn;
+    let scoreUpdate = this.props.gameData.score.slice(); 
     scoreUpdate[winner] = scoreUpdate[winner] + 1;
     const resetState = {
+      id: 'id123',
       game: [ 
         [null, null, null, null, null, null],
         [null, null, null, null, null, null],
@@ -155,11 +104,10 @@ class Game extends Component {
       gameNum: currGameNum,
       score: scoreUpdate
     }
-    if(this.state.multiplayer){
-      console.log(resetState);
+    if(this.props.gameData.multiplayer){
       socket.emit('game_reset', resetState);
     } else {
-      this.setState(resetState);
+      //single player stuff
     }
   }
   
