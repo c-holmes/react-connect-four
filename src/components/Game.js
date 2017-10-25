@@ -113,6 +113,7 @@ class Game extends Component {
   
   render() {
     let winMessage;
+    console.log(this.props);
     if(this.props.gameData.winner){
       winMessage = <WinMessage stats={this.props.gameData.winStats} currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 
