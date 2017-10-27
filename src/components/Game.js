@@ -13,7 +13,7 @@ class Game extends Component {
       });
 
       socket.on('player_submit_move', (data) => {
-        this.props.playerSubmitMove(data.id, data.game, data.currTurn);
+        this.props.playerSubmitMove(data.id, data.game, data.currTurn, true);
       });
 
       socket.on('player_game_over_msg', (data) => {
@@ -21,7 +21,7 @@ class Game extends Component {
       }); 
 
       socket.on('game_reset', (data) => {
-        this.props.gameReset(data.id, data.game, data.currTurn, data.clicked, data.winner, data.winStats, data.gameNum, data.score);
+        this.props.gameReset(data.id, data.gameNum, data.score);
       });
     }
   }
@@ -69,13 +69,12 @@ class Game extends Component {
           socket.emit('player_submit_move', {
             id: 'id123',
             game: gameStatus,
-            currTurn: currTurn
+            currTurn: currTurn,
+            multiplayer: true,
           });
         } else {
-          // single player stuff
-          // this.setState({
-          //   player: currTurn
-          // })
+          // single player 
+          this.props.playerSubmitMove('id123', gameStatus, currTurn, false);
         }
       }
     }
@@ -88,32 +87,19 @@ class Game extends Component {
     scoreUpdate[winner] = scoreUpdate[winner] + 1;
     const resetState = {
       id: 'id123',
-      game: [ 
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-        [null, null, null, null, null, null],
-      ],
-      currTurn: 0,
-      clicked: false,
-      winner: false,
-      winStats: false,
       gameNum: currGameNum,
       score: scoreUpdate
     }
     if(this.props.gameData.multiplayer){
       socket.emit('game_reset', resetState);
     } else {
-      //single player stuff
+      this.props.gameReset('id123', currGameNum, scoreUpdate);
     }
   }
   
   render() {
     let winMessage;
-    console.log(this.props);
+
     if(this.props.gameData.winner){
       winMessage = <WinMessage stats={this.props.gameData.winStats} currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleReset(i)} />;
     } 

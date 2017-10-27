@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 
 class AdminBar extends Component{
 	renderOutScoreBoard(multiplayer) {
+		const player1Score = this.props.score[this.props.player];
+		const player2Score = this.props.score[1 - this.props.player];
 		if(multiplayer){
-			const player1Score = this.props.score[this.props.player];
-			const player2Score = this.props.score[1 - this.props.player];
 			const player1ClassName = 'player' + this.props.player + ' item';
 			const player2ClassName = 'player' + (1 - this.props.player) + ' item';
 			return(

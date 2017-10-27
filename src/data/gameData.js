@@ -1,4 +1,5 @@
 const gameData = {
+	gameId: '',
 	game: [ 
 	  [null, null, null, null, null, null],
 	  [null, null, null, null, null, null],

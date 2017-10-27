@@ -16,9 +16,11 @@ import store, { history } from './store';
 ReactDOM.render((
 	<Provider store={store}>
 		<Router history={history}>
-	  	<Route path="/" component={GameMenu}></Route>
-	  	<Route path="/play" component={App}></Route>
-	  	<Route path="/test" component={Test}></Route>
+	  	<Route path="/" component={App}>
+	  		<IndexRoute component={GameMenu}></IndexRoute>
+	  		<Route path="/play" component={Test}></Route>
+	  		<Route path="/play/:gameId" component={Game}></Route>
+	  	</Route>
 	  </Router>
 	</Provider>
 ), document.getElementById('root'))
