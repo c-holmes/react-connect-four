@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import App from './components/App';
 import GameMenu from './components/GameMenu';
-import Test from './components/Test';
+import Lobby from './components/Lobby';
 import Game from './components/Game';
 
 require('./styles/style.scss');
@@ -18,7 +18,7 @@ ReactDOM.render((
 		<Router history={history}>
 	  	<Route path="/" component={App}>
 	  		<IndexRoute component={GameMenu}></IndexRoute>
-	  		<Route path="/play" component={Test}></Route>
+	  		<Route path="/play" component={Lobby}></Route>
 	  		<Route path="/play/:gameId" component={Game}></Route>
 	  	</Route>
 	  </Router>
