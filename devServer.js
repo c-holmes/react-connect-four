@@ -21,11 +21,6 @@ sio.on('connection', (socket) => {
   	console.log('only 2 allowed in the game room')
   }
 
-  //assign player number
-  socket.emit('player_assign', player);
-  console.log(`Player ${player} connected`);
-  player = 1 - player;
-
   socket.on('player_submit_move', (data) => {
     sio.emit('player_submit_move', data);
   });
@@ -36,6 +31,14 @@ sio.on('connection', (socket) => {
 
   socket.on('game_reset', (data) => {
     sio.emit('game_reset', data);
+  });
+
+  socket.on('lobby_game_created', (data) => {
+    sio.emit('lobby_game_created', data);
+    //assign player number
+    socket.emit('player_assign', player);
+    console.log(`Player ${player} connected`);
+    player = 1 - player;
   });
 
   socket.on('disconnect', () => {

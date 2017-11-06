@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Game from './Game';
+// import Game from './Game';
 // import GameMenu from './GameMenu';
 
 class Main extends Component {

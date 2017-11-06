@@ -1,23 +1,41 @@
 import React, { Component } from 'react';
-import CreateUser from './CreateUser';
-import CreateGame from './CreateGame';
+import shortid from 'shortid';
+const io = require('socket.io-client');
+const socket = io();
+import CreateGameForm from './CreateGameForm';
 import GameList from './GameList';
 
 class Lobby extends Component {
+	componentDidMount() {
+		socket.on('lobby_game_created', (data) => {
+			this.props.hostedGameAvailable(data.id, data.player1);
+		});
+	}
+
+	handleSubmit(values){
+		let gameId = shortid.generate();
+		//reducer
+		this.props.createHostedGame(gameId, values.userName);
+		//socket emit
+		socket.emit('lobby_game_created', {
+			id: gameId,
+			player1: values.userName
+		});
+		//player1 router change
+		this.props.router.push(`/play/2-${gameId}`);
+	}
+
 	render() {
 		return(
 			<div className="lobby">
-				<div className="user">
-					<h2>Create Temporary User</h2>
-					<CreateUser />
-				</div>
 				<div className="host">
 					<h2>Host a Game</h2>
-					<CreateGame />
+					<CreateGameForm onSubmit={(i) => this.handleSubmit(i)}/>
 				</div>
 				<div className="join">
 					<h2>Join a Game</h2>
-					<GameList />
+					{console.log(this.props)}
+					<GameList lobbyData={this.props.lobbyData} />
 				</div>
 			</div>
 		)

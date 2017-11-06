@@ -6,6 +6,7 @@ import Main from './Main';
 function mapStateToProps(state) {
   return {
     gameData: state.gameData,
+    lobbyData: state.lobbyData,
   }
 }
 

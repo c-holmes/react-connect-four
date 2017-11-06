@@ -7,11 +7,13 @@ import { browserHistory } from 'react-router';
 import rootReducer from './reducers/index';
 
 import gameData from './data/gameData';
+import lobbyData from './data/lobbyData';
 
 const loggerMiddleware = createLogger();
 
 const defaultState = {
-	gameData
+	gameData,
+	lobbyData
 };
 
 const store = createStore(

@@ -67,6 +67,22 @@ export function playerGameOverMsg(id, gameStatus, currTurn, winner, winStats) {
 	}
 }
 
+export function createHostedGame(id, userName) {
+	return {
+		type: 'CREATE_HOSTED_GAME',
+		id,
+		userName
+	}
+}
+
+export function hostedGameAvailable(id, userName) {
+	return {
+		type: 'HOSTED_GAME_AVAILABLE',
+		id,
+		userName
+	}
+}
+
 // Async Action Items (Sockets
 // export function submitMove(id, gameStatus, currTurn) {
 // 	return (dispatch) => {
