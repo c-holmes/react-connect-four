@@ -9,7 +9,7 @@ let CreateGameForm = props => {
 			  <label htmlFor="userName">Username</label>
 			  <Field name="userName" component="input" type="text" />
 			</div>
-			<button type="submit">Submit</button>
+			<button type="submit">Create Game</button>
 		</form>
 	)
 }

@@ -7,10 +7,12 @@ import WinMessage from './WinMessage';
 
 class Game extends Component {
   componentDidMount() {  
-    if(this.props.gameData.multiplayer) {      
-      socket.on('player_assign', (playerNum) => {
-        this.props.playerAssign('id123', playerNum);
-      });
+    if(this.props.gameData.multiplayer) {
+      this.props.playerAssign(this.props.lobbyData.user.player);
+
+      // socket.on('player_assign', (data) => {
+      //   this.props.playerAssign('id123', data.playerNum);
+      // });
 
       socket.on('player_submit_move', (data) => {
         this.props.playerSubmitMove(data.id, data.game, data.currTurn, true);

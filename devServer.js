@@ -1,9 +1,12 @@
+const path = require('path');
 const express = require('express');
 const app = express();
 const http = require('http');
 const io = require('socket.io');
 const webpack = require('webpack');
 const config = require('./webpack.dev');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const server = http.createServer(app);
 const compiler = webpack(config);
 
@@ -36,10 +39,15 @@ sio.on('connection', (socket) => {
   socket.on('lobby_game_created', (data) => {
     sio.emit('lobby_game_created', data);
     //assign player number
-    socket.emit('player_assign', player);
-    console.log(`Player ${player} connected`);
-    player = 1 - player;
+    sio.emit('player_assign', data);
+    console.log(`Game ${data.id} Player ${data.playerNum} connected`);
   });
+
+  socket.on('lobby_game_joined', (data) => {
+    //assign player number
+    sio.emit('player_assign', data);
+    console.log(`Game ${data.id} Player ${data.playerNum} connected`);
+  })
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -53,6 +61,35 @@ app.use(require('webpack-dev-middleware')(compiler, {
 }));
 
 app.use(require('webpack-hot-middleware')(compiler));
+
+/* Mongoose Setup */
+const hostedGame = require('./src/models/hostedGame');
+mongoose.connect('mongodb://localhost/connect-four');
+
+/* Express - Routes */
+app.use('/', express.static(path.join(__dirname, 'src')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const router = express.Router();
+
+router.use((req, res, next) => {
+  next();
+});
+
+router.route('/games')
+  .get((req, res) => {
+    hostedGame.find((err, games) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      return res.json(games);
+    });
+  });
+
+// all of our routes will be prefixed with /api
+app.use('/api', router);
 
 /* Express server set up. */
 // use * to always serve the index file (needed for react router)

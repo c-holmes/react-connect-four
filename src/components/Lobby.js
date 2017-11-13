@@ -13,14 +13,20 @@ class Lobby extends Component {
 	}
 
 	handleSubmit(values){
-		let gameId = shortid.generate();
-		//reducer
+		const gameId = shortid.generate();
+		const userId = shortid.generate();
+		
+		//reducers
 		this.props.createHostedGame(gameId, values.userName);
+		this.props.addCurrUser(userId, values.userName, 0);
+
 		//socket emit
 		socket.emit('lobby_game_created', {
 			id: gameId,
-			player1: values.userName
+			playerNum: 0,
+			player1: values.userName,
 		});
+
 		//player1 router change
 		this.props.router.push(`/play/2-${gameId}`);
 	}
@@ -34,8 +40,7 @@ class Lobby extends Component {
 				</div>
 				<div className="join">
 					<h2>Join a Game</h2>
-					{console.log(this.props)}
-					<GameList lobbyData={this.props.lobbyData} />
+					<GameList lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
 				</div>
 			</div>
 		)

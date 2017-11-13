@@ -38,10 +38,9 @@ export function gameReset(id, gameNum, score) {
 	}
 }
 
-export function playerAssign(id, playerNum) {
+export function playerAssign(playerNum) {
 	return {
 		type: 'PLAYER_ASSIGN',
-		id,
 		playerNum,
 	}
 }
@@ -80,6 +79,15 @@ export function hostedGameAvailable(id, userName) {
 		type: 'HOSTED_GAME_AVAILABLE',
 		id,
 		userName
+	}
+}
+
+export function addCurrUser(id, userName, playerNum) {
+	return {
+		type: 'ADD_CURR_USER',
+		id,
+		userName,
+		playerNum
 	}
 }
 

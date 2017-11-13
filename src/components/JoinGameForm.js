@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-let CreateUserForm = props => {
+let JoinGameForm = props => {
   const { handleSubmit } = props
   return (
     <form onSubmit={ handleSubmit }>
       <div>
-        <label htmlFor="userName">First Name</label>
+        <label htmlFor="userName">Username</label>
         <Field name="userName" component="input" type="text" />
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit">Join</button>
     </form>
   )
 }
 
-CreateUserForm = reduxForm({
-  // a unique name for the form
-  form: 'createUser'
-})(CreateUserForm)
+JoinGameForm = reduxForm({
+  form: 'joinGame'
+})(JoinGameForm)
 
-export default CreateUserForm;
+export default JoinGameForm;
