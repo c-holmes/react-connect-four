@@ -86,6 +86,19 @@ router.route('/games')
 
       return res.json(games);
     });
+  })
+  .post((req, res) => {
+    const game = new hostedGame(req.body);
+
+    console.log(game);
+
+    game.save((err) => {
+      if (err) {
+        return res.send(err);
+      }
+
+      return res.json({ game: 'Game Created'});
+    })
   });
 
 // all of our routes will be prefixed with /api

@@ -6,6 +6,10 @@ const socket = io();
 import JoinGameForm from './JoinGameForm';
 
 class GameList extends Component {
+	componentWillMount() {
+		this.props.fetchAvailableGames();
+	}
+
 	handleSubmit(values, key) {
 		// console.log(values, key);
 		const gameId = this.props.lobbyData.availableGames[key].id;

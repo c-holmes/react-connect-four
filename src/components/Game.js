@@ -10,10 +10,6 @@ class Game extends Component {
     if(this.props.gameData.multiplayer) {
       this.props.playerAssign(this.props.lobbyData.user.player);
 
-      // socket.on('player_assign', (data) => {
-      //   this.props.playerAssign('id123', data.playerNum);
-      // });
-
       socket.on('player_submit_move', (data) => {
         this.props.playerSubmitMove(data.id, data.game, data.currTurn, true);
       });

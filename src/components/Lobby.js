@@ -15,7 +15,7 @@ class Lobby extends Component {
 	handleSubmit(values){
 		const gameId = shortid.generate();
 		const userId = shortid.generate();
-		
+
 		//reducers
 		this.props.createHostedGame(gameId, values.userName);
 		this.props.addCurrUser(userId, values.userName, 0);
@@ -40,7 +40,7 @@ class Lobby extends Component {
 				</div>
 				<div className="join">
 					<h2>Join a Game</h2>
-					<GameList lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
+					<GameList fetchAvailableGames={this.props.fetchAvailableGames} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
 				</div>
 			</div>
 		)

@@ -1,5 +1,5 @@
-// const io = require('socket.io-client');
-// const socket = io();
+import fetch from 'isomorphic-fetch';
+
 export function gameStart(id, multiplayer) {
 	return {
 		type: 'GAME_START',
@@ -91,18 +91,22 @@ export function addCurrUser(id, userName, playerNum) {
 	}
 }
 
-// Async Action Items (Sockets
-// export function submitMove(id, gameStatus, currTurn) {
-// 	return (dispatch) => {
-// 		socket.emit('submit_move', {
-// 		  game: gameStatus,
-// 		  currTurn: currTurn
-// 		});
-// 	}
-// }
+export function showAvailableGames(gamesObj) {
+	return {
+		type: 'SHOW_AVAILABLE_GAMES',
+		gamesObj
+	}
+}
 
-// export function playerAssign(playerNum) {
-// 	return (dispatch) => {
-// 		socket.emit('')
-// 	}
-// }
+export function fetchAvailableGames() {
+	return (dispatch) => {
+		if (!window.location.origin) {
+		  window.location.origin = `${window.location.protocol} // ${window.location.hostname}  ${window.location.port ? ':' + window.location.port : ''}`;
+		}
+		const origin = window.location.origin;
+
+		return fetch(`${origin}/api/games/`)
+		  .then(response => response.json())
+		  .then(json => dispatch(receiveData(json, 'games')));
+	};
+}

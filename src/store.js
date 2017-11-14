@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
+import { fetchAvailableGames } from './actions/actionCreators';
 import rootReducer from './reducers/index';
 
 import gameData from './data/gameData';
