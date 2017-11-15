@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 
 let JoinGameForm = props => {
   const { handleSubmit } = props
+
   return (
     <form onSubmit={ handleSubmit }>
       <div>
@@ -14,8 +15,7 @@ let JoinGameForm = props => {
   )
 }
 
-JoinGameForm = reduxForm({
-  form: 'joinGame'
-})(JoinGameForm)
+//normally you would pass an {form: unique-name} to reduxForm, instead i am passing this through props 
+JoinGameForm = reduxForm()(JoinGameForm)
 
 export default JoinGameForm;

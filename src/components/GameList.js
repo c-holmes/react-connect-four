@@ -12,7 +12,7 @@ class GameList extends Component {
 
 	handleSubmit(values, key) {
 		// console.log(values, key);
-		const gameId = this.props.lobbyData.availableGames[key].id;
+		const gameId = this.props.lobbyData.availableGames[key]._id;
 		const userId = shortid.generate();
 
 		//reducer
@@ -21,10 +21,13 @@ class GameList extends Component {
 		// this.props.createHostedGame(gameId, values.userName);
 		// //socket emit
 		socket.emit('lobby_game_joined', {
-			id: gameId,
+			_id: gameId,
 			playerNum: 1,
 			player2: values.userName
 		});
+
+		this.props.joinHostedGame(gameId, key);
+
 		//player1 router change
 		this.props.router.push(`/play/2-${gameId}`);
 	}
@@ -34,7 +37,7 @@ class GameList extends Component {
 			<li key={key}>
 				<div className="container">
 					<span className="game">{this.props.lobbyData.availableGames[key].player1}'s Game</span>
-					<JoinGameForm onSubmit={(i) => this.handleSubmit(i, key)}/>
+					<JoinGameForm form={`joinGame-${key}`} onSubmit={(i) => this.handleSubmit(i, key)}/>
 					<span>
 						<Link to={`/play/2-${this.props.lobbyData.availableGames[key].id}`}>Join</Link> 
 					</span>

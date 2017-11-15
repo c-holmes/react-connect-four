@@ -40,7 +40,7 @@ class Lobby extends Component {
 				</div>
 				<div className="join">
 					<h2>Join a Game</h2>
-					<GameList fetchAvailableGames={this.props.fetchAvailableGames} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
+					<GameList fetchAvailableGames={this.props.fetchAvailableGames} joinHostedGame={this.props.joinHostedGame} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
 				</div>
 			</div>
 		)

@@ -19,7 +19,7 @@ function lobbyData (state = {}, action) {
 	switch (action.type) {
 		case 'ADD_CURR_USER' :
 			let currUser = {
-				id: action.id,
+				_id: action.id,
 				userName: action.userName,
 				player: action.playerNum
 			}
@@ -29,7 +29,7 @@ function lobbyData (state = {}, action) {
 
 		case 'CREATE_HOSTED_GAME' :
 			let gameHostObj = {
-				gameId: action.id,
+				_id: action.id,
 				player1: action.userName,
 				date: new Date()
 			}
@@ -55,7 +55,7 @@ function lobbyData (state = {}, action) {
 
 		case 'HOSTED_GAME_AVAILABLE' :
 			let availGame = {
-				id: action.id,
+				_id: action.id,
 				player1: action.userName
 			}
 			newState.availableGames.push(availGame);
@@ -69,8 +69,18 @@ function lobbyData (state = {}, action) {
 		break;
 
 		case 'JOIN_HOSTED_GAME' :
-			// TODO: add player2 to Hosted Game State
-			// TODO: remove game from available games
+			fetch(`${origin}/api/games/${action.id}`, {
+				method: 'delete',
+			})
+			.then(response => response.json())
+			.then((data) => {
+				console.log(data);
+			});
+
+			newState[action.index] = null;
+			console.log('Deleted');
+			// newState = newState.filter(function(n){ return n != undefined }); 
+
 			return newState;
 		break;
 		default:

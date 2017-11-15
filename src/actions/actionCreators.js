@@ -91,6 +91,14 @@ export function addCurrUser(id, userName, playerNum) {
 	}
 }
 
+export function joinHostedGame(id, index) {
+	return {
+		type: 'JOIN_HOSTED_GAME',
+		id,
+		index
+	}
+}
+
 export function showAvailableGames(gamesObj) {
 	return {
 		type: 'SHOW_AVAILABLE_GAMES',
@@ -107,6 +115,6 @@ export function fetchAvailableGames() {
 
 		return fetch(`${origin}/api/games/`)
 		  .then(response => response.json())
-		  .then(json => dispatch(receiveData(json, 'games')));
+		  .then(json => dispatch(showAvailableGames(json, 'games')));
 	};
 }

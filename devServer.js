@@ -64,7 +64,7 @@ app.use(require('webpack-hot-middleware')(compiler));
 
 /* Mongoose Setup */
 const hostedGame = require('./src/models/hostedGame');
-mongoose.connect('mongodb://localhost/connect-four');
+mongoose.connect('mongodb://localhost/connectfour');
 
 /* Express - Routes */
 app.use('/', express.static(path.join(__dirname, 'src')));
@@ -90,8 +90,6 @@ router.route('/games')
   .post((req, res) => {
     const game = new hostedGame(req.body);
 
-    console.log(game);
-
     game.save((err) => {
       if (err) {
         return res.send(err);
@@ -99,6 +97,26 @@ router.route('/games')
 
       return res.json({ game: 'Game Created'});
     })
+  });
+
+router.route('/games/:game_id')
+  .get((req, res) => {
+    hostedGame.findById(req.params.game_id, (err, game) => {
+      if (err) {
+        return res.send(err);
+      }
+      return res.json(game);
+    });
+  })
+  .delete((req, res) => {
+    hostedGame.remove({
+      id: req.params.gameId
+    }, (err, game) => {
+      if (err) {
+        return res.send(err);
+      }
+      return res.json({ message: 'Game Deleted' })
+    });
   });
 
 // all of our routes will be prefixed with /api
