@@ -8,7 +8,7 @@ let JoinGameForm = props => {
     <form onSubmit={ handleSubmit }>
       <div>
         <label htmlFor="userName">Username</label>
-        <Field name="userName" component="input" type="text" />
+        <Field className="userName" name="userName" component="input" type="text" />
       </div>
       <button type="submit">Join</button>
     </form>

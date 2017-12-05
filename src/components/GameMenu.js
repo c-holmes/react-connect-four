@@ -11,11 +11,24 @@ class GameMenu extends Component {
 		let gameId = shortid.generate();
 		return(
 		  <div>
+		  		<div className="admin-bar home">
+		  			<div className="container">
+		  				<img className="sml-logo" src={`${window.location.origin}/connect-four-small.png`} alt="connect-four" />
+		  			</div>
+		  		</div>
 		      <ul className="game-menu">
-		        <li><Link to={`/play/1-${gameId}`} className="play" onClick={()=>this.handleClick(`1-${gameId}`, false)} >Single Player</Link></li>
-		        <li><Link to={`/play/2-${gameId}`} className="play" onClick={()=>this.handleClick(`2-${gameId}`, true)} >Multiplayer</Link></li>
-		        <li><Link to="/play" className="lobby" >Lobby</Link></li>
-		        <li><Link to="/test" className="how-to-play">How To Play</Link></li>
+		        <li>
+		        	<Link to="/play" className="lobby">
+		        		<span className="top">Online Play</span>
+		        		<span className="bottom">Multiplayer</span> 
+		        	</Link>
+		        </li>
+		        <li>
+		        	<Link to={`/play/1-${gameId}`} className="play" onClick={()=>this.handleClick(`1-${gameId}`, false)} >
+			        	<span className="top">Turn Based Play</span>
+			        	<span className="bottom">Single Device</span> 
+		        	</Link>
+		        </li>
 		      </ul>
 		  </div>
 		)

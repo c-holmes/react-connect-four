@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 const io = require('socket.io-client');
 const socket = io();
 import AdminBar from './AdminBar';
+import GameAdminBar from './GameAdminBar';
 import Grid from './Grid';
 import WinMessage from './WinMessage';
 
@@ -103,7 +104,8 @@ class Game extends Component {
     } 
     return (
       <div className="Game">
-        <AdminBar multiplayer={this.props.gameData.multiplayer} player={this.props.gameData.player} gameNum={this.props.gameData.gameNum} score={this.props.gameData.score} turn={this.props.gameData.currTurn} />
+        <AdminBar />
+        <GameAdminBar multiplayer={this.props.gameData.multiplayer} player={this.props.gameData.player} gameNum={this.props.gameData.gameNum} score={this.props.gameData.score} turn={this.props.gameData.currTurn} />
         <div className="board">
           <div className="leg left"><div className="base"><div className="corner"></div></div></div>
           <Grid currTurn={this.props.gameData.currTurn} onClick={(i) => this.handleSquareClick(i)} game={this.props.gameData.game} winStats={this.props.gameData.winStats} />

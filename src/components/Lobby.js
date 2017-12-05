@@ -4,6 +4,7 @@ const io = require('socket.io-client');
 const socket = io();
 import CreateGameForm from './CreateGameForm';
 import GameList from './GameList';
+import AdminBar from './AdminBar';
 
 class Lobby extends Component {
 	componentDidMount() {
@@ -34,6 +35,7 @@ class Lobby extends Component {
 	render() {
 		return(
 			<div className="lobby">
+				<AdminBar />
 				<div className="host">
 					<h2>Host a Game</h2>
 					<CreateGameForm onSubmit={(i) => this.handleSubmit(i)}/>

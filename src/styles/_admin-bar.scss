@@ -1,0 +1,193 @@
+.App{
+  .admin-bar{
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background:#3158b1;
+    border-bottom:1px solid darken(#3158b1, 10%);
+    padding: 10px 5px;
+    font-size: 11px;
+    text-align: right;
+
+    &.home{
+      text-align: center;
+    }
+
+    &.in-game{
+      position: relative;
+      background: #f7f7f7;
+      border-bottom: 1px solid #ddd;
+
+      .container{
+        text-align: center;
+        // text-align: justify;
+        // text-justify: distribute;
+        font-size: 0px;
+
+        span{
+          font-size: 12px;
+        }
+
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 100%;
+        }
+      }
+    }
+
+    > .container{
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 30px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .back{
+      position: absolute;
+      left: 20px;
+      top: -2px;
+      text-decoration: none;
+      color: #fff;
+      padding: 6px 0 6px 15px;
+      font-size: 0;
+
+      &:after{
+        content:"";
+        position:absolute;
+        left: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 10px solid #fff;
+      }
+    }
+
+    .sml-logo{
+      display: inline-block;
+      // position: absolute;
+      //     right: 30px;
+      //     top: -2px;
+    }
+
+    .item{
+      padding: 5px 5px;
+      display: inline-block;
+    }
+
+    .score{
+      display: inline-block;
+      background: #fb8383;
+      color: #fff;
+      font-weight: 300;
+      margin: 5px;
+
+      .item{
+        padding: 5px 10px;
+        display: inline-block;
+
+        &.player0{
+          background: yellow;
+          border: 1px solid darken(yellow, 10%);
+          color: #000;
+        }
+
+        &.player1{
+          background: red;
+          border: 1px solid darken(red, 10%);
+        }
+      }
+
+      .label{
+        padding: 5px;
+      }
+    }
+  }
+
+  .curr-turn{
+    margin: 5px;
+    span{
+      letter-spacing: 1px;
+      font-weight: 700;
+      position: relative;
+      padding-left: 20px;
+      
+      &:after{
+        content:"";
+        position: absolute;
+        left: 5px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+    }
+
+    .player-0{
+      &:after{
+        background: yellow;
+        border: 1px solid darken(yellow, 10%);
+      }
+    }
+
+    .player-1{
+      &:after{
+        background: red;
+        border: 1px solid darken(red, 10%);
+      }
+    }
+  }
+}
+
+@media all and (min-width: 767px){
+  .App{
+    .admin-bar{
+      .back{
+        font-size: 12px;
+        top: 2px;
+        left: 35px;
+
+        &:after{
+          content:"";
+          position:absolute;
+          left: 0;
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-right: 5px solid #fff;
+        }
+      }
+
+      &.in-game{
+        .container{
+          text-align: justify;
+          text-justify: distribute;
+
+          span{
+            font-size: 10px;
+          }
+
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1030px){
+  .App{
+    .admin-bar{
+      &.in-game{
+        .container{
+          span{
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

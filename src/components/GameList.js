@@ -33,25 +33,34 @@ class GameList extends Component {
 	}
 
 	renderGame(key) {
-		return(
-			<li key={key}>
-				<div className="container">
-					<span className="game">{this.props.lobbyData.availableGames[key].player1}'s Game</span>
-					<JoinGameForm form={`joinGame-${key}`} onSubmit={(i) => this.handleSubmit(i, key)}/>
-					<span>
-						<Link to={`/play/2-${this.props.lobbyData.availableGames[key].id}`}>Join</Link> 
-					</span>
-				</div>
-			</li>
-		)
+		if(this.props.lobbyData.availableGames[key] !== null){
+			return(
+				<li key={key}>
+					<div className="container">
+						<span className="game">{this.props.lobbyData.availableGames[key].player1}'s Game</span>
+						<JoinGameForm form={`joinGame-${key}`} onSubmit={(i) => this.handleSubmit(i, key)}/>
+					</div>
+				</li>
+			)
+		}
 	}
 
 	render() {
-		return(
-			<ul>
-				{Object.keys(this.props.lobbyData.availableGames).map(this.renderGame.bind(this))}
-			</ul>
-		)
+		if(this.props.lobbyData.availableGames.length == 0){
+			return(
+				<div className="no-games-msg">
+					<i className="icon-sad2"></i>
+					<p className="main">Sorry, Currently there are no Hosted Games.</p>
+					<p>Why not host one yourself?</p>
+				</div>
+			)
+		} else {
+			return(
+				<ul>
+					{Object.keys(this.props.lobbyData.availableGames).map(this.renderGame.bind(this))}
+				</ul>
+			)
+		}
 	}
 }
 

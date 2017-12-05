@@ -60,6 +60,8 @@ app.use(require('webpack-dev-middleware')(compiler, {
 	publicPath: config.output.publicPath
 }));
 
+console.log(config.output.publicPath);
+
 app.use(require('webpack-hot-middleware')(compiler));
 
 /* Mongoose Setup */
@@ -110,17 +112,19 @@ router.route('/games/:game_id')
   })
   .delete((req, res) => {
     hostedGame.remove({
-      id: req.params.gameId
+      _id: req.params.game_id
     }, (err, game) => {
       if (err) {
         return res.send(err);
       }
       return res.json({ message: 'Game Deleted' })
-    });
+    })
   });
 
 // all of our routes will be prefixed with /api
 app.use('/api', router);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* Express server set up. */
 // use * to always serve the index file (needed for react router)

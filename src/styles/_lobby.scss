@@ -1,0 +1,147 @@
+.lobby{
+	box-sizing: border-box;
+	max-width: 1240px;
+	margin: 50px auto;
+
+	.host, .join{
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 0 30px;
+
+		h2{
+			margin-top: 0;
+			font-size: 23px;
+			margin-bottom: 30px;
+			text-decoration: underline;
+		}
+	}
+
+	.host{
+		margin-bottom: 60px;
+
+		form{
+			background: #f7f7f7;
+			border: 1px solid #ddd;
+			padding: 30px;
+			max-width: 637px;
+			width: 100%;
+			box-sizing: border-box;
+		}
+	}
+
+	.join{
+		ul{
+			list-style-type: none;
+			padding: 27px;
+			box-sizing:border-box;
+			margin: 0;
+			max-height: 427px;
+			overflow-y: auto;
+			border: 1px solid #ddd;
+			background: #f7f7f7;
+
+			li{
+				background: #fff;
+				border: 1px solid #ddd;
+				padding: 30px;
+				max-width: 637px;
+				width: 100%;
+				box-sizing: border-box;
+				margin-bottom: 15px;
+
+				&:last-child{
+					margin-bottom: 0;
+				}
+
+				form{
+					label, input{
+						margin: 5px;
+						font-size: 12px;
+					}
+
+					.userName{
+						width: 175px;
+					}
+
+					button{
+						font-size: 12px;
+						padding: 10px 15px;
+					}
+
+					> div, button{
+						display: inline-block;
+						vertical-align: middle;
+						margin: 10px 10px 0 10px;
+					}
+				}
+			}
+		}
+
+		.no-games-msg{
+			border: 1px solid #ddd;
+			background: #f7f7f7;
+			padding: 30px;
+
+			p{
+				font-size: 13px;
+				line-height: 24px;
+				margin-bottom: 0;
+			}
+
+			i{
+				font-size: 24px;
+			}
+
+			span{
+				line-height: normal;
+			}
+		}
+	}
+
+	form{
+		label, input{
+			display: inline-block;
+			vertical-align: middle;
+			margin: 10px 0;
+			font-size: 14px;
+			font-family: 'Press Start 2P', cursive;	
+		}
+
+		label{
+			margin-right: 15px;
+		}
+
+		input{
+			border: 0;
+			padding: 10px;
+			border: 1px solid #ddd;
+		}
+
+		button{
+			font-size: 14px;
+			background: #3158b1;
+			color: #fff;
+			font-family: 'Press Start 2P', cursive;	
+			padding: 15px 25px;
+			border: 0;
+			margin-top: 25px;
+			cursor: pointer;
+		}
+
+		//custom
+		.userName{
+			width: 180px;
+		}
+	}
+}
+
+@media all and (min-width: 767px) {
+	.lobby{
+		margin: 65px auto;
+		.host, .join{
+			display: inline-block;
+			width: 50%;
+			vertical-align: top;
+		}
+	}
+}

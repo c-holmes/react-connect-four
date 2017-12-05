@@ -5,7 +5,7 @@ function lobbyData (state = {}, action) {
 	    window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
 	}
 	const origin = window.location.origin;
-	const newState = Object.assign({}, state);
+	let newState = Object.assign({}, state);
 
 	function serialize(obj) {
 	  var str = [];
@@ -63,23 +63,29 @@ function lobbyData (state = {}, action) {
 		break;
 
 		case 'SHOW_AVAILABLE_GAMES' :
-			let availGames = action.gamesObj
+			let availGames = action.gamesObj;
+			console.log(availGames);
 			newState.availableGames = availGames;
 			return newState;
 		break;
 
 		case 'JOIN_HOSTED_GAME' :
+			console.log(action.id);
 			fetch(`${origin}/api/games/${action.id}`, {
-				method: 'delete',
+				method: 'delete'
 			})
 			.then(response => response.json())
 			.then((data) => {
 				console.log(data);
 			});
-
-			newState[action.index] = null;
-			console.log('Deleted');
-			// newState = newState.filter(function(n){ return n != undefined }); 
+			// console.log(newState.availableGames);
+			// console.log(action.index);
+			console.log(newState.availableGames[action.index]);
+			newState.availableGames[action.index] = null;
+			console.log(newState.availableGames[action.index]);
+			// console.log(newState);
+			newState.availableGames.filter((n) => { return n != undefined }); 
+			// console.log(newState);
 
 			return newState;
 		break;

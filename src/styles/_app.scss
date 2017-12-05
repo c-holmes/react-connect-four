@@ -1,35 +1,76 @@
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  // font-family: sans-serif;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .App{
-  margin: 65px auto 0;
+  padding: 47px 0 40px;
   text-align: center;
-  
-  .home{
-    .game-menu{
-      .home{
-        display:none;
+
+    .game-title{
+      img{
+        width: 100%;
+        max-width: 800px;
+        margin-bottom: 20px;
       }
     }
-  }
 
-  .play{
-    .game-menu{
-      li{
-        display: none;
+  .game-menu{
+    list-style-type: none;
+    margin: 55px 0;
+    padding: 0px 25px;
+    box-sizing: border-box;
 
-        &.home{
+    li{
+      font-size: 20px;
+      margin: 0 0 45px 0;
+      padding: 10px;
+
+      a{
+        border: 4px solid #3158b1;
+        color: #3158b1;
+        text-decoration: none;
+        display: inline-block;
+        line-height: 36px;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        width: 100%;
+
+        .top, .bottom{
           display: inline-block;
+        }
+
+        .bottom{
+          position: relative;
+
+          &:after, &:before{
+            content: "-";
+            position: absolute;
+            top: 3px;
+          }
+
+          &:after{
+            right: -30px;
+          }
+
+          &:before{
+            left: -30px;
+          }
         }
       }
     }
   }
-
-
-
+  
   .popup{
     position: absolute;
     z-index: 99;
@@ -38,8 +79,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255,255,255,.5);
-    padding: 40px;
-    max-width: 250px;
+    padding: 20px;
+    max-width: 300px;
     margin: 0 auto;
     box-shadow: 5px 6px 20px rgba(0,0,0,.5);
 
@@ -53,6 +94,7 @@ body {
 
     h3{
       font-weight: 400;
+      line-height: 30px;
     }
 
     button{
@@ -63,83 +105,6 @@ body {
       border-radius: 0px;
       border: 1px solid darken(#f7f7f7, 20%);
       cursor: pointer;
-    }
-  }
-
-  .admin-bar{
-    position: fixed;
-    z-index: 9;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #f7f7f7;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 5px;
-    font-size: 11px;
-
-    .item{
-      padding: 5px 5px;
-      display: inline-block;
-    }
-
-    .score{
-      display: inline-block;
-      background: #fb8383;
-      color: #fff;
-      font-weight: 300;
-      margin-right: 5px;
-
-      .item{
-        padding: 5px 10px;
-        display: inline-block;
-
-        &.player0{
-          background: yellow;
-          border: 1px solid darken(yellow, 10%);
-          color: #000;
-        }
-
-        &.player1{
-          background: red;
-          border: 1px solid darken(red, 10%);
-        }
-      }
-
-      .label{
-        padding: 5px;
-      }
-    }
-  }
-
-  .curr-turn{
-    span{
-      letter-spacing: 1px;
-      font-weight: 700;
-      position: relative;
-      padding-left: 20px;
-      
-      &:after{
-        content:"";
-        position: absolute;
-        left: 5px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-      }
-    }
-
-    .player-0{
-      &:after{
-        background: yellow;
-        border: 1px solid darken(yellow, 10%);
-      }
-    }
-
-    .player-1{
-      &:after{
-        background: red;
-        border: 1px solid darken(red, 10%);
-      }
     }
   }
 }
@@ -164,6 +129,26 @@ body {
 
 @media all and (min-width: 767px){
   .App{
-    margin: 90px 30px;
+    .game-menu{
+      font-size: 0;
+      max-width: 975px;
+      margin: 35px auto; 
+
+      li{
+        width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        box-sizing: border-box;
+
+        a{
+          padding: 170px 20px;
+        }
+      }
+    }
+
+    .popup{
+      max-width: 370px;
+      padding: 40px;
+    }
   }
 }

@@ -6,8 +6,8 @@ let CreateGameForm = props => {
 	return (
 		<form onSubmit={ handleSubmit }>
 			<div>
-			  <label htmlFor="userName">Username</label>
-			  <Field name="userName" component="input" type="text" />
+			  <label htmlFor="userName">Username:</label>
+			  <Field className="userName" name="userName" component="input" type="text" />
 			</div>
 			<button type="submit">Create Game</button>
 		</form>
