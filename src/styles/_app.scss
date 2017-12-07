@@ -13,7 +13,7 @@ body {
 }
 
 .App{
-  padding: 47px 0 40px;
+  padding: 47px 0 0px;
   text-align: center;
 
     .game-title{
@@ -33,15 +33,15 @@ body {
     li{
       font-size: 20px;
       margin: 0 0 45px 0;
-      padding: 10px;
+      padding: 20px;
 
       a{
         border: 4px solid #3158b1;
         color: #3158b1;
         text-decoration: none;
-        display: inline-block;
+        display: table-cell;
+        vertical-align: middle;
         line-height: 36px;
-        max-width: 400px;
         margin: 0 auto;
         padding: 40px 20px;
         width: 100%;
@@ -139,6 +139,8 @@ body {
         display: inline-block;
         vertical-align: top;
         box-sizing: border-box;
+        margin: 0;
+        padding: 0 20px;
 
         a{
           padding: 170px 20px;
