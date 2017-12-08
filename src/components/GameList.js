@@ -34,11 +34,15 @@ class GameList extends Component {
 
 	renderGame(key) {
 		if(this.props.lobbyData.availableGames[key] !== null){
+			let today = new Date();
+			let date = Date.parse(this.props.lobbyData.availableGames[key].date);
+			date = Math.round((today - date) / 60000);
 			return(
 				<li key={key}>
 					<div className="container">
-						<span className="game">{this.props.lobbyData.availableGames[key].player1}'s Game</span>
+						<span className="game"><span>{this.props.lobbyData.availableGames[key].player1}</span>'s Game</span>
 						<JoinGameForm form={`joinGame-${key}`} onSubmit={(i) => this.handleSubmit(i, key)}/>
+						<span className="date">Game Created: {date} minutes ago</span>
 					</div>
 				</li>
 			)
@@ -57,7 +61,7 @@ class GameList extends Component {
 		} else {
 			return(
 				<ul>
-					{Object.keys(this.props.lobbyData.availableGames).map(this.renderGame.bind(this))}
+					{Object.keys(this.props.lobbyData.availableGames.reverse()).map(this.renderGame.bind(this))}
 				</ul>
 			)
 		}

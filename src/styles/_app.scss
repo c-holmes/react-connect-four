@@ -33,21 +33,27 @@ body {
     li{
       font-size: 20px;
       margin: 0 0 45px 0;
-      padding: 20px;
+      padding: 0 20px;
+
+      &:last-child{
+        margin-bottom: 0;
+      }
 
       a{
         border: 4px solid #3158b1;
         color: #3158b1;
         text-decoration: none;
-        display: table-cell;
-        vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
         line-height: 36px;
         margin: 0 auto;
         padding: 40px 20px;
         width: 100%;
 
         .top, .bottom{
-          display: inline-block;
+          display: block;
         }
 
         .bottom{
@@ -131,8 +137,8 @@ body {
   .App{
     .game-menu{
       font-size: 0;
-      max-width: 975px;
-      margin: 35px auto; 
+      max-width: 1240px;
+      margin: 50px auto; 
 
       li{
         width: 50%;
@@ -140,10 +146,16 @@ body {
         vertical-align: top;
         box-sizing: border-box;
         margin: 0;
-        padding: 0 20px;
+        padding: 0 30px;
 
         a{
           padding: 170px 20px;
+          font-size: 17px;
+          line-height: 30px;
+
+          .top,.bottom{
+            display: block;
+          }
         }
       }
     }
@@ -151,6 +163,24 @@ body {
     .popup{
       max-width: 370px;
       padding: 40px;
+    }
+  }
+}
+
+@media all and (min-width: 767px){
+  .App{
+    .game-menu{
+      li{
+        a{
+          padding: 170px 20px;
+          font-size: 20px;
+          line-height: 37px;
+
+          .top,.bottom{
+            display: block;
+          }
+        }
+      }
     }
   }
 }

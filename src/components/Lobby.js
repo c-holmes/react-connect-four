@@ -7,10 +7,32 @@ import GameList from './GameList';
 import AdminBar from './AdminBar';
 
 class Lobby extends Component {
+	constructor() {
+		super();
+		this.state = {
+			panelStyle: {
+				height: 'auto',
+			}
+		};
+	}
+
 	componentDidMount() {
 		socket.on('lobby_game_created', (data) => {
 			this.props.hostedGameAvailable(data.id, data.player1);
 		});
+
+		//set height to full screen
+		if(window.innerWidth > 767){
+			let selector = document.getElementsByClassName('lobby')[0];
+			let margin = parseInt(window.getComputedStyle(selector, null).getPropertyValue('margin-top'))*2;
+			let windowHeight = window.innerHeight - 48 - 53;
+
+			this.setState({
+				panelStyle: {
+					maxHeight: windowHeight - margin,
+				} 
+			});
+		} 
 	}
 
 	handleSubmit(values){
@@ -42,7 +64,9 @@ class Lobby extends Component {
 				</div>
 				<div className="join">
 					<h2>Join a Game</h2>
-					<GameList fetchAvailableGames={this.props.fetchAvailableGames} joinHostedGame={this.props.joinHostedGame} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
+					<div className="overflow-container" style={this.state.panelStyle}>
+						<GameList fetchAvailableGames={this.props.fetchAvailableGames} joinHostedGame={this.props.joinHostedGame} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
+					</div>
 				</div>
 			</div>
 		)

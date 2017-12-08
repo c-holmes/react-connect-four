@@ -17,24 +17,22 @@ class GameMenu extends Component {
 	}
 
 	componentDidMount() {
-		let gameMenu = document.getElementsByClassName('game-menu')[0];
-		let gameMenuMargin = parseInt(window.getComputedStyle(gameMenu, null).getPropertyValue('margin-top'));
+		//set height to full screen
+		let selector = document.getElementsByClassName('game-menu')[0];
+		let margin = parseInt(window.getComputedStyle(selector, null).getPropertyValue('margin-top'))*2;
+		let windowHeight = window.innerHeight - 48;
+		if(window.innerWidth < 767){
+			windowHeight = (windowHeight / 2);
+			margin = margin - 33;
+		} 
 		this.setState({
 			panelStyle:{
-				height: window.innerHeight - (48 + (gameMenuMargin*2))
+				height: windowHeight - margin
 			} 
 		});
 	}
 
 	render() {
-		// console.log(gameMenu);
-		// let gameMenuMargin = window.getComputedStyle(gameMenu, null).getPropertyValue('margin');
-		// console.log(gameMenuMargin);
-		// let autoHeight = {
-		// 	// height: window.outerHeight - (48 + gameMenuMargin)
-		// }
-		// console.log(autoHeight);
-		// console.log(gameMenu);
 		let gameId = shortid.generate();
 		return(
 		  <div>
@@ -46,14 +44,18 @@ class GameMenu extends Component {
 		      <ul className="game-menu">
 		        <li>
 		        	<Link to="/play" className="lobby panel" style={this.state.panelStyle}>
-		        		<span className="top">Online Play</span>
-		        		<span className="bottom">Multiplayer</span> 
+		        		<div className="container">
+			        		<span className="top">Online Play</span>
+			        		<span className="bottom">Multiplayer</span> 
+			        	</div>
 		        	</Link>
 		        </li>
 		        <li>
 		        	<Link to={`/play/1-${gameId}`} className="play panel" onClick={()=>this.handleClick(`1-${gameId}`, false)} style={this.state.panelStyle} >
-			        	<span className="top">Turn Based Play</span>
-			        	<span className="bottom">Single Device</span> 
+			        	<div className="container">
+				        	<span className="top">Turn Based Play</span>
+				        	<span className="bottom">Single Device</span> 
+				        </div>
 		        	</Link>
 		        </li>
 		      </ul>
