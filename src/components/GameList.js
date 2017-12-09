@@ -11,22 +11,24 @@ class GameList extends Component {
 	}
 
 	handleSubmit(values, key) {
-		// console.log(values, key);
 		const gameId = this.props.lobbyData.availableGames[key]._id;
 		const userId = shortid.generate();
 
 		//reducer
 		this.props.addCurrUser(userId, values.userName, 1);
 
-		// this.props.createHostedGame(gameId, values.userName);
-		// //socket emit
+		//socket emit
 		socket.emit('lobby_game_joined', {
 			_id: gameId,
 			playerNum: 1,
 			player2: values.userName
 		});
 
+		//update lobby state
 		this.props.joinHostedGame(gameId, key);
+
+		//update multiplayer state
+		this.props.gameStart(gameId, true);
 
 		//player1 router change
 		this.props.router.push(`/play/2-${gameId}`);

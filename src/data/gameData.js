@@ -14,7 +14,7 @@ const gameData = {
 	clicked: false,
 	winner: false,
 	winStats: false,
-	multiplayer: true,
+	multiplayer: false,
 	gameNum: 0,
 	score: [0, 0]
 }

@@ -12,10 +12,6 @@ class GameMenu extends Component {
 		};
 	}
 
-	handleClick(gameId, multiplayer) {
-		this.props.gameStart(gameId, multiplayer);
-	}
-
 	componentDidMount() {
 		//set height to full screen
 		let selector = document.getElementsByClassName('game-menu')[0];
@@ -43,7 +39,7 @@ class GameMenu extends Component {
 		  		</div>
 		      <ul className="game-menu">
 		        <li>
-		        	<Link to="/play" className="lobby panel" style={this.state.panelStyle}>
+		        	<Link to="/lobby" className="lobby panel" style={this.state.panelStyle}>
 		        		<div className="container">
 			        		<span className="top">Online Play</span>
 			        		<span className="bottom">Multiplayer</span> 
@@ -51,7 +47,7 @@ class GameMenu extends Component {
 		        	</Link>
 		        </li>
 		        <li>
-		        	<Link to={`/play/1-${gameId}`} className="play panel" onClick={()=>this.handleClick(`1-${gameId}`, false)} style={this.state.panelStyle} >
+		        	<Link to='/play' className="play panel" style={this.state.panelStyle} >
 			        	<div className="container">
 				        	<span className="top">Turn Based Play</span>
 				        	<span className="bottom">Single Device</span> 

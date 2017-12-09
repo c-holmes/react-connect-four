@@ -50,6 +50,9 @@ class Lobby extends Component {
 			player1: values.userName,
 		});
 
+		//update multiplayer state
+		this.props.gameStart(gameId, true);
+
 		//player1 router change
 		this.props.router.push(`/play/2-${gameId}`);
 	}
@@ -65,7 +68,7 @@ class Lobby extends Component {
 				<div className="join">
 					<h2>Join a Game</h2>
 					<div className="overflow-container" style={this.state.panelStyle}>
-						<GameList fetchAvailableGames={this.props.fetchAvailableGames} joinHostedGame={this.props.joinHostedGame} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
+						<GameList fetchAvailableGames={this.props.fetchAvailableGames} gameStart={this.props.gameStart} joinHostedGame={this.props.joinHostedGame} lobbyData={this.props.lobbyData} addCurrUser={this.props.addCurrUser} router={this.props.router} />
 					</div>
 				</div>
 			</div>

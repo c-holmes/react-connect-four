@@ -60,8 +60,6 @@ app.use(require('webpack-dev-middleware')(compiler, {
 	publicPath: config.output.publicPath
 }));
 
-console.log(config.output.publicPath);
-
 app.use(require('webpack-hot-middleware')(compiler));
 
 /* Mongoose Setup */
@@ -128,7 +126,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* Express server set up. */
 // use * to always serve the index file (needed for react router)
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
 });
 

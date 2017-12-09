@@ -8,6 +8,7 @@ import WinMessage from './WinMessage';
 
 class Game extends Component {
   componentDidMount() {  
+    console.log(this.props.gameData);
     if(this.props.gameData.multiplayer) {
       this.props.playerAssign(this.props.lobbyData.user.player);
 

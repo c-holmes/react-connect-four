@@ -18,8 +18,9 @@ ReactDOM.render((
 		<Router history={history}>
 	  	<Route path="/" component={App}>
 	  		<IndexRoute component={GameMenu}></IndexRoute>
-	  		<Route path="/play" component={Lobby}></Route>
+	  		<Route path="/play" component={Game}></Route>
 	  		<Route path="/play/:gameId" component={Game}></Route>
+	  		<Route path="/lobby" component={Lobby}></Route>
 	  	</Route>
 	  </Router>
 	</Provider>
