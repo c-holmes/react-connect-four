@@ -1,11 +1,56 @@
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif; }
+  font-family: 'Press Start 2P', cursive; }
 
 .App {
-  margin: 65px auto 0;
+  padding: 47px 0 0px;
   text-align: center; }
+  .App .game-title img {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px; }
+  .App .game-menu {
+    list-style-type: none;
+    margin: 55px 0;
+    padding: 0px 25px;
+    box-sizing: border-box; }
+    .App .game-menu li {
+      font-size: 20px;
+      margin: 0 0 45px 0;
+      padding: 0 20px; }
+      .App .game-menu li:last-child {
+        margin-bottom: 0; }
+      .App .game-menu li a {
+        border: 4px solid #3158b1;
+        color: #3158b1;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        line-height: 36px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        width: 100%; }
+        .App .game-menu li a .top, .App .game-menu li a .bottom {
+          display: block; }
+        .App .game-menu li a .bottom {
+          position: relative; }
+          .App .game-menu li a .bottom:after, .App .game-menu li a .bottom:before {
+            content: "-";
+            position: absolute;
+            top: 3px; }
+          .App .game-menu li a .bottom:after {
+            right: -30px; }
+          .App .game-menu li a .bottom:before {
+            left: -30px; }
   .App .popup {
     position: absolute;
     z-index: 99;
@@ -14,8 +59,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.5);
-    padding: 40px;
-    max-width: 250px;
+    padding: 20px;
+    max-width: 300px;
     margin: 0 auto;
     box-shadow: 5px 6px 20px rgba(0, 0, 0, 0.5); }
     .App .popup.player-0 {
@@ -23,7 +68,8 @@ body {
     .App .popup.player-1 {
       border: 4px dashed red; }
     .App .popup h3 {
-      font-weight: 400; }
+      font-weight: 400;
+      line-height: 30px; }
     .App .popup button {
       font-size: 14px;
       padding: 7px 15px;
@@ -32,37 +78,123 @@ body {
       border-radius: 0px;
       border: 1px solid #c4c4c4;
       cursor: pointer; }
-  .App .admin-bar {
-    position: fixed;
-    z-index: 9;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #f7f7f7;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 5px;
-    font-size: 11px; }
-    .App .admin-bar .item {
-      padding: 5px 5px;
-      display: inline-block; }
-    .App .admin-bar .score {
+
+.grid {
+  width: 100%;
+  display: inline-block;
+  padding: 5px; }
+
+.column {
+  width: 14.25%;
+  display: inline-block; }
+
+.grid .heading, .grid .square button {
+  font-size: 0; }
+
+@media all and (min-width: 767px) {
+  .App .game-menu {
+    font-size: 0;
+    max-width: 1240px;
+    margin: 50px auto; }
+    .App .game-menu li {
+      width: 50%;
       display: inline-block;
-      background: #fb8383;
-      color: #fff;
-      font-weight: 300;
-      margin-right: 5px; }
-      .App .admin-bar .score .item {
-        padding: 5px 10px;
-        display: inline-block; }
-        .App .admin-bar .score .item.player0 {
-          background: yellow;
-          border: 1px solid #cccc00;
-          color: #000; }
-        .App .admin-bar .score .item.player1 {
-          background: red;
-          border: 1px solid #cc0000; }
-      .App .admin-bar .score .label {
-        padding: 5px; }
+      vertical-align: top;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0 30px; }
+      .App .game-menu li a {
+        padding: 170px 20px;
+        font-size: 17px;
+        line-height: 30px; }
+        .App .game-menu li a .top, .App .game-menu li a .bottom {
+          display: block; }
+  .App .popup {
+    max-width: 370px;
+    padding: 40px; } }
+
+@media all and (min-width: 767px) {
+  .App .game-menu li a {
+    padding: 170px 20px;
+    font-size: 20px;
+    line-height: 37px; }
+    .App .game-menu li a .top, .App .game-menu li a .bottom {
+      display: block; } }
+
+.App .admin-bar {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #3158b1;
+  border-bottom: 1px solid #264489;
+  padding: 10px 5px;
+  font-size: 11px;
+  text-align: right; }
+  .App .admin-bar.home {
+    text-align: center; }
+  .App .admin-bar.in-game {
+    position: relative;
+    background: #f7f7f7;
+    border-bottom: 1px solid #ddd; }
+    .App .admin-bar.in-game .container {
+      text-align: center;
+      font-size: 0px;
+      font-family: sans-serif; }
+      .App .admin-bar.in-game .container span {
+        font-size: 12px; }
+      .App .admin-bar.in-game .container:after {
+        content: '';
+        display: inline-block;
+        width: 100%; }
+  .App .admin-bar > .container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 30px;
+    box-sizing: border-box;
+    position: relative; }
+  .App .admin-bar .back {
+    position: absolute;
+    left: 20px;
+    top: -2px;
+    text-decoration: none;
+    color: #fff;
+    padding: 6px 0 6px 15px;
+    font-size: 0; }
+    .App .admin-bar .back:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid #fff; }
+  .App .admin-bar .sml-logo {
+    display: inline-block; }
+  .App .admin-bar .item {
+    padding: 5px 5px;
+    display: inline-block; }
+  .App .admin-bar .score {
+    display: inline-block;
+    background: #fb8383;
+    color: #fff;
+    font-weight: 300;
+    margin: 5px; }
+    .App .admin-bar .score .item {
+      padding: 5px 10px;
+      display: inline-block; }
+      .App .admin-bar .score .item.player0 {
+        background: yellow;
+        border: 1px solid #cccc00;
+        color: #000; }
+      .App .admin-bar .score .item.player1 {
+        background: red;
+        border: 1px solid #cc0000; }
+    .App .admin-bar .score .label {
+      padding: 5px; }
+
+.App .curr-turn {
+  margin: 5px; }
   .App .curr-turn span {
     letter-spacing: 1px;
     font-weight: 700;
@@ -82,21 +214,31 @@ body {
     background: red;
     border: 1px solid #cc0000; }
 
-.grid {
-  width: 100%;
-  display: inline-block;
-  padding: 5px; }
-
-.column {
-  width: 14.25%;
-  display: inline-block; }
-
-.grid .heading, .grid .square button {
-  font-size: 0; }
-
 @media all and (min-width: 767px) {
-  .App {
-    margin: 90px 30px; } }
+  .App .admin-bar .back {
+    font-size: 12px;
+    top: 2px;
+    left: 35px; }
+    .App .admin-bar .back:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 5px solid #fff; }
+  .App .admin-bar.in-game .container {
+    text-align: justify;
+    text-justify: distribute; }
+    .App .admin-bar.in-game .container span {
+      font-size: 10px; }
+    .App .admin-bar.in-game .container:after {
+      content: '';
+      display: inline-block;
+      width: 100%; } }
+
+@media all and (min-width: 1030px) {
+  .App .admin-bar.in-game .container span {
+    font-size: 14px; } }
 
 .board {
   max-width: 560px;
@@ -177,9 +319,14 @@ body {
   z-index: 9;
   border-bottom: 3px solid #163265; }
 
+@media all and (min-width: 560px) {
+  .board {
+    margin: 30px auto; } }
+
 @media all and (min-width: 767px) {
   .board {
-    padding: 0 15px; }
+    padding: 0 15px;
+    margin: 6% auto; }
     .board .leg {
       display: block; } }
 
@@ -233,3 +380,119 @@ body {
       position: absolute;
       border: 7px solid #00ed00;
       box-sizing: border-box; }
+
+.lobby {
+  box-sizing: border-box;
+  max-width: 1240px;
+  margin: 50px auto; }
+  .lobby .host, .lobby .join {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 30px; }
+    .lobby .host h2, .lobby .join h2 {
+      margin-top: 0;
+      font-size: 23px;
+      margin-bottom: 30px;
+      text-decoration: underline; }
+  .lobby .host {
+    margin-bottom: 60px; }
+    .lobby .host form {
+      background: #f7f7f7;
+      border: 1px solid #ddd;
+      padding: 30px;
+      max-width: 637px;
+      width: 100%;
+      box-sizing: border-box; }
+      .lobby .host form label, .lobby .host form input {
+        font-size: 14px;
+        font-family: sans-serif; }
+  .lobby .join .overflow-container {
+    max-height: 427px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background: #f7f7f7; }
+  .lobby .join ul {
+    list-style-type: none;
+    padding: 27px;
+    box-sizing: border-box;
+    margin: 0; }
+    .lobby .join ul li {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 30px 30px 20px 30px;
+      max-width: 637px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      font-family: sans-serif; }
+      .lobby .join ul li:last-child {
+        margin-bottom: 0; }
+      .lobby .join ul li .game {
+        font-weight: 600; }
+        .lobby .join ul li .game span {
+          text-transform: capitalize; }
+      .lobby .join ul li .date {
+        font-size: 12px;
+        margin-top: 18px;
+        display: inline-block; }
+      .lobby .join ul li form label, .lobby .join ul li form input {
+        margin: 5px;
+        font-size: 14px;
+        font-family: sans-serif; }
+      .lobby .join ul li form .userName {
+        width: 210px; }
+      .lobby .join ul li form button {
+        font-size: 12px;
+        padding: 10px 15px; }
+      .lobby .join ul li form > div, .lobby .join ul li form button {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 10px 10px 0 10px; }
+  .lobby .join .no-games-msg {
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    padding: 30px; }
+    .lobby .join .no-games-msg p {
+      font-size: 13px;
+      line-height: 24px;
+      margin-bottom: 0; }
+    .lobby .join .no-games-msg i {
+      font-size: 24px; }
+    .lobby .join .no-games-msg span {
+      line-height: normal; }
+  .lobby form label, .lobby form input {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 10px 0;
+    font-size: 14px;
+    font-family: 'Press Start 2P', cursive; }
+  .lobby form label {
+    margin-right: 15px; }
+  .lobby form input {
+    border: 0;
+    padding: 10px;
+    border: 1px solid #ddd; }
+  .lobby form button {
+    font-size: 14px;
+    background: #3158b1;
+    color: #fff;
+    font-family: 'Press Start 2P', cursive;
+    padding: 15px 25px;
+    border: 0;
+    margin-top: 25px;
+    cursor: pointer; }
+  .lobby form .userName {
+    width: 180px; }
+
+@media all and (min-width: 767px) {
+  .lobby {
+    margin: 65px auto; }
+    .lobby .overflow-container {
+      overflow-y: auto; }
+    .lobby .host, .lobby .join {
+      display: inline-block;
+      width: 50%;
+      vertical-align: top; }
+      .lobby .host ul, .lobby .join ul {
+        max-height: none;
+        overflow-y: none; } }
