@@ -49,7 +49,7 @@
 
     .back{
       position: absolute;
-      left: 20px;
+      left: 10px;
       top: -2px;
       text-decoration: none;
       color: #fff;
@@ -60,14 +60,15 @@
         content:"";
         position:absolute;
         left: 0;
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-        border-right: 10px solid #fff;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-right: 7px solid #fff;
       }
     }
 
     .sml-logo{
       display: inline-block;
+      max-width: 100%;
       // position: absolute;
       //     right: 30px;
       //     top: -2px;
